@@ -3,7 +3,7 @@ layout: book-review
 title: Information and Coding Theory
 author: Gareth A.Jones and Mary Jones
 cover: assets/img/book_covers/information.jpg
-categories: Informatio Theory
+categories: Information Theory
 tags: Introduction-friendly
 status: Reading
 ---
