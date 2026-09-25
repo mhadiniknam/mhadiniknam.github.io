@@ -7,4 +7,5 @@ categories: Information Theory
 tags: Introduction-friendly
 status: Reading
 ---
+
 I found this book randomly in my school library and I think it's the most begginer friendly book , To see what is going on in information theory
