@@ -102,7 +102,7 @@
       location: Remote
       description:
         - "Collaborating with Dr. Gholamali Aminian."
-        - "LMArena140K: Human Preference Analysis — Investigated feature-level patterns associated with human preferences in large language model evaluations."
+        - "Arena Human Preference 90K: Engineered Features and Correctness Annotations — Engineered interpretable structural and linguistic features across 90,000 battle conversations and curated independent human correctness annotations for LLM evaluation and preference modeling (Released on <a href='https://huggingface.co/datasets/Gholamali/Arena_Human_Preference_90K_features_verified' target='_blank'>Hugging Face</a>)."
 
     - title: Independent Researcher
       institution: Independent Research in Reinforcement Learning

@@ -12,6 +12,10 @@
 "BSc Thesis":
   color: "#6A1B9A"
 
+"Dataset":
+  url: https://huggingface.co/datasets/Gholamali/Arena_Human_Preference_90K_features_verified
+  color: "#FF9D0B"
+
 "Project":
   color: "#2E7D32"
 
