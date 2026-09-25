@@ -9,15 +9,11 @@ last_name: Niknam
 contact_note: >
   The best way to reach me is via email.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-  This is my personal website. I'm a software engineer and machine learning engineer.
-  My interests are in machine learning, software engineering, and AI.
-  My name is Hadi Niknam.
-  My email is hadi.niknam2004@gmail.com.
+  Personal website of Mohammad Hadi Niknam, undergraduate researcher in Computer Science at Amirkabir University of Technology (Tehran Polytechnic) focusing on Reinforcement Learning, Medical Robotics, and Medical AI.
 footer_text: >
-  © 2024 Hadi Niknam. All rights reserved.
+  © 2026 Mohammad Hadi Niknam. All rights reserved.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-keywords: Hadi Niknam, mohammad hadi niknam, mhadi niknam, portfolio, blog, machine learning, software engineering # This here actually matters for SEO
+keywords: Mohammad Hadi Niknam, Hadi Niknam, mhadi niknam, Amirkabir University of Technology, reinforcement learning, medical robotics, medical AI, super resolution, deep learning, portfolio
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: ⛰️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
@@ -264,7 +260,7 @@ display_categories: ["external-services"] # these categories will be displayed o
 
 scholar:
   last_name: [Niknam]
-  first_name: [Hadi]
+  first_name: [Hadi, Mohammad Hadi, Mohammad hadi]
 
   style: apa
   locale: en

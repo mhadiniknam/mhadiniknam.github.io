@@ -4,8 +4,8 @@ permalink: /cv/
 title: cv
 nav: true
 nav_order: 5
-cv_pdf: example_pdf.pdf # you can also use external links here
-description: This is my minimal CV
+cv_pdf: hadi_niknam.pdf # you can also use external links here
+description: Curriculum Vitae of Mohammad Hadi Niknam. Live Overleaf version is available <a href="https://www.overleaf.com/read/hdrpxqfmkwfg#14702d" target="_blank">here</a>.
 toc:
   sidebar: left
 ---

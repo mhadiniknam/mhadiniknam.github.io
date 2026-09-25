@@ -1,3 +1,20 @@
+"ICASSP":
+  url: https://2026.ieeeicassp.org/
+  color: "#00629B"
+
+"BMC":
+  url: https://bmcmedinformdecismak.biomedcentral.com/
+  color: "#1E88E5"
+
+"Under Review":
+  color: "#E65100"
+
+"BSc Thesis":
+  color: "#6A1B9A"
+
+"Project":
+  color: "#2E7D32"
+
 "AJP":
   url: https://aapt.scitation.org/journal/ajp
   color: "#00369f"

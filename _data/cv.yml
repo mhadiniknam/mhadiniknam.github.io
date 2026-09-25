@@ -1,0 +1,178 @@
+- title: General Information
+  type: map
+  contents:
+    - name: Full Name
+      value: Mohammad Hadi Niknam
+    - name: Affiliation
+      value: Amirkabir University of Technology (Tehran Polytechnic)
+    - name: Department
+      value: Computer Science
+    - name: Email
+      value: niknam@aut.ac.ir
+    - name: Phone
+      value: "+98-9918017161"
+    - name: Online CV
+      links:
+        - name: Overleaf Live Version
+          link: https://www.overleaf.com/read/hdrpxqfmkwfg#14702d
+        - name: Download PDF
+          link: /assets/pdf/hadi_niknam.pdf
+
+- title: Education
+  type: time_table
+  contents:
+    - title: Bachelor of Science in Computer Science
+      institution: Amirkabir University of Technology (Tehran Polytechnic)
+      year: 2023 - 2027 (Feb.)
+      location: Tehran, Iran
+      description:
+        - "220 ECTS · 7th Semester · CGPA: 16.60 / 20"
+        - "BSc Thesis: Human-Adaptive Safe Reinforcement Learning for Medical Ultrasound Robotic Arms"
+        - "Supervisors: Prof. Mostafa Shamsi, Dr. Farid Azampour"
+    - title: High School Diploma in Mathematics & Physics
+      institution: Alborz High School (Previously American School)
+      year: 2016 - 2022
+      location: Tehran, Iran
+      description:
+        - "CGPA: 19.56 / 20"
+
+- title: Research Interests
+  type: nested_list
+  contents:
+    - title: Reinforcement Learning
+      items:
+        - RL Theory
+        - LLM Alignment & Preference Modeling
+        - Decision Making Under Uncertainty
+        - Multi-Agent RL
+    - title: Medical Robotics
+      items:
+        - Robot Learning
+        - Human-Adaptive Control
+        - Ultrasound-Guided Robotics
+    - title: Medical AI
+      items:
+        - Medical Imaging & Image Super-Resolution
+        - Foundation Models for Healthcare
+        - Clinically Robust AI
+
+- title: Key Projects & Research
+  type: time_table
+  contents:
+    - title: Research Project Coordinator & Research Assistant
+      institution: Dr. Javad Alirezaie Lab, Toronto Metropolitan University
+      year: 2025 - Present
+      location: Toronto, Canada (Remote)
+      description:
+        - title: "Research Project Coordinator (September 2025 - Present):"
+          contents:
+            - "Led a 3-member undergraduate research team on efficient image super-resolution, coordinating paper discussions, experimental milestones, task allocation, and research deliverables."
+            - "QuantaSR: Efficient Image Super-Resolution through Quantization Error Optimization in Low-Precision Neural Networks (Under Review)."
+            - "MLTSR: Efficient Super Resolution Using Multi-Task Learning with Conflict-Aware Optimization (In Preparation)."
+        - title: "Research Assistant (July 2025 - September 2026):"
+          contents:
+            - "Designed RL-based neural architecture search over lightweight super-resolution blocks."
+            - "SRIQL: Implicit Q Learning for Ultralight-weight Image Super Resolution (ICASSP / IEEE Conference) — SOTA on DIV2K / Set14 / Set5 / Urban100 by 1 dB PSNR."
+            - "URLSR: Efficient Image Super Resolution Network using Neural Operations and Reinforcement Learning (Under Review, BMC Medical Informatics and Decision Making)."
+
+    - title: Research Assistant
+      institution: Shafa Yahyaian Hospital, Iran University of Medical Sciences
+      year: 2025 - Present
+      location: Tehran, Iran
+      description:
+        - title: "Publications / Manuscripts:"
+          contents:
+            - "Fairness-Aware Operating-Room Sequencing for Acute Orthopaedic Trauma: A Retrospective Capacity-Calibrated Stress Test Using MOVER (Under Review, BMC Medical Informatics and Decision Making)."
+            - "Imaging-Based Artificial Intelligence for Osteonecrosis of the Jaw: A Systematic Review of Current Evidence and Clinical Translation Challenges (Under Review)."
+        - title: "Ongoing Research Proposals:"
+          contents:
+            - "BoneRADS framework automation with AI using classical computer vision."
+            - "Fine-tuning MedSAM on the BTXRD dataset."
+            - "VQA benchmark development for the BTXRD dataset."
+
+    - title: Research Assistant
+      institution: Computer Aided Medical Procedures (CAMP), Technical University of Munich (TUM)
+      year: 2025 - Present
+      location: Munich, Germany (Remote)
+      description:
+        - "Collaborating with Dr. Nassir Navab on ultrasound foundation models: 'A Review on Ultrasound Foundation Models'."
+
+    - title: Research Assistant
+      institution: Aminian Research Lab
+      year: 2025 - 2026
+      location: Remote
+      description:
+        - "Collaborating with Dr. Gholamali Aminian."
+        - "LMArena140K: Human Preference Analysis — Investigated feature-level patterns associated with human preferences in large language model evaluations."
+
+    - title: Independent Researcher
+      institution: Independent Research in Reinforcement Learning
+      year: 2026 - Present
+      description:
+        - "TailRL Extension (RLC 2026): Designing an adaptive tail-weighting scheme to dynamically scale policy gradients based on trajectory return percentiles rather than heuristic top-k cutoffs."
+
+- title: Work Experience
+  type: time_table
+  contents:
+    - title: AI Research Engineer (Intern)
+      institution: ResanAI
+      year: 2026 (Mar - Jun)
+      location: Tehran, Iran
+      description:
+        - "Completed an AI engineering internship focused on graph algorithms and Graph Neural Networks (GCN, GraphSAGE, EdgeConv)."
+        - "Investigated geometric algorithms and graph-based architectures in 3D point cloud literature."
+        - "Studied PyG (PyTorch Geometric) library internals for high-performance geometric deep learning."
+
+- title: Honors & Awards
+  type: time_table
+  contents:
+    - year: 2022
+      items:
+        - "Gold Medalist in Iran National Economics Olympiad"
+        - "Top 1% rank in the Iran National University Entrance Exam (Konkur) competing against over 100,000 students nationwide"
+
+- title: Selected Courses
+  type: list
+  contents:
+    - "Partial Differential Equations (PDE): 18.5 / 20"
+    - "Signals and Systems: 18.0 / 20"
+    - "Deep Reinforcement Learning (Audited, 2025)"
+    - "Multi-Agent Reinforcement Learning (Audited, 2026)"
+
+- title: Languages
+  type: map
+  contents:
+    - name: Persian
+      value: "Native Speaker"
+    - name: English
+      value: "Professional Proficiency — Official TOEFL iBT: 90 / 120 (Verified Score in Hand)"
+    - name: German
+      value: "Limited Working Proficiency (B1) — Goethe-Institut Teheran"
+    - name: French
+      value: "Limited Understanding (A2)"
+    - name: Arabic
+      value: "Basic Understanding"
+
+- title: Professional References
+  type: time_table
+  contents:
+    - title: Dr. Farzan Niknejad
+      institution: Toronto Metropolitan University, Canada
+      department: Postdoctoral Fellow
+      maindescription: "Email: <a href='mailto:fniknejad@torontomu.ca'>fniknejad@torontomu.ca</a>"
+    - title: Dr. Alireza Esmaeilzehi
+      institution: University of Toronto, Canada
+      department: Postdoctoral Fellow / PhD
+      maindescription: "Email: <a href='mailto:alireza.esmaeilzehi@utoronto.ca'>alireza.esmaeilzehi@utoronto.ca</a>"
+    - title: Dr. Mohammad Farid Azampour
+      institution: Technical University of Munich (TUM), Germany
+      department: Postdoctoral Researcher
+      maindescription: "Email: <a href='mailto:mf.azampour@tum.de'>mf.azampour@tum.de</a>"
+    - title: Dr. Mohammad Reza Dolikhani
+      institution: Shahid Beheshti University of Medical Sciences, Iran
+      department: Medical Doctor (MD) - Researcher
+      maindescription: "Email: <a href='mailto:mohammadrezadolikhani@sbmu.ac.ir'>mohammadrezadolikhani@sbmu.ac.ir</a>"
+    - title: Dr. Javad Alirezaie
+      institution: Toronto Metropolitan University, Canada
+      department: Professor
+      maindescription: "Email: <a href='mailto:javad@torontomu.ca'>javad@torontomu.ca</a>"
