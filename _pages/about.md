@@ -34,7 +34,7 @@ Currently, my research focuses on:
 * **Medical Robotics:** Robot learning, human-adaptive compliance control, and ultrasound-guided robotic arms.
 * **Medical AI:** Medical imaging, foundation models for healthcare, and clinically robust decision-making.
 
-For my **BSc Thesis**, I am researching *Human-Adaptive Safe Reinforcement Learning for Medical Ultrasound Robotic Arms*, under the supervision of **Prof. Mostafa Shamsi** and **Dr. Farid Azampour**.
+For my **BSc Thesis**, I am researching *Human-Adaptive Safe Reinforcement Learning for Medical Ultrasound Robotic Arms*.
 
 ### Current Research Engagements
 * **Dr. Javad Alirezaie Lab (Toronto Metropolitan University, Canada — Remote):** Serving as Research Project Coordinator and Research Assistant. Leading undergraduate research on lightweight super-resolution architectures, neural architecture search via reinforcement learning (**SRIQL**, **URLSR**), and low-precision network quantization (**QuantaSR**).
