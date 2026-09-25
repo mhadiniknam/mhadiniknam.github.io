@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-cv",
           title: "cv",
-          description: "This is my minimal CV",
+          description: "Curriculum Vitae of Mohammad Hadi Niknam. Live Overleaf version is available here.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/cv/";
@@ -127,7 +127,7 @@ ninja.data = [{
         title: 'LinkedIn',
         section: 'Socials',
         handler: () => {
-          window.open("https://www.linkedin.com/in/hadi_niknam", "_blank");
+          window.open("https://www.linkedin.com/in/hadi-niknam", "_blank");
         },
       },{
         id: 'social-rss',
@@ -135,6 +135,27 @@ ninja.data = [{
         section: 'Socials',
         handler: () => {
           window.open("/feed.xml", "_blank");
+        },
+      },{
+        id: 'social-x',
+        title: 'X',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://twitter.com/_Nicknam_", "_blank");
+        },
+      },{
+        id: 'social-youtube',
+        title: 'YouTube',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://youtube.com/@torch_digger", "_blank");
+        },
+      },{
+        id: 'social-huggingface',
+        title: 'Huggingface',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://huggingface.co/Nicknam", "_blank");
         },
       },{
       id: 'light-theme',
