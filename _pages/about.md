@@ -35,7 +35,7 @@ Currently, my research focuses on:
 - **Medical Robotics:** Robot learning, human-adaptive compliance control, and ultrasound-guided robotic arms.
 - **Medical AI:** Medical imaging, foundation models for healthcare, and clinically robust decision-making.
 
-For my **BSc Thesis**, I developed [**HAS-RL**](/thesis/): _Human-Adaptive Safe Reinforcement Learning for Clinician-Configured Force Safety in Robotic Ultrasound Spinal Scanning_ (see the [dedicated thesis project page](/thesis/) or download the [research paper](/assets/pdf/has_rl_paper.pdf) and [AUT defense thesis](/assets/pdf/AUTthesis.pdf)).
+For my **BSc Thesis**, I developed [**HAS-RL**](/blog/2026/has-rl-bachelor-thesis/): _Human-Adaptive Safe Reinforcement Learning for Clinician-Configured Force Safety in Robotic Ultrasound Spinal Scanning_ (see the [bilingual thesis post](/blog/2026/has-rl-bachelor-thesis/) or download the [research paper](/assets/pdf/has_rl_paper.pdf) and [AUT defense thesis](/assets/pdf/AUTthesis.pdf)).
 
 ### Current Research Engagements
 
