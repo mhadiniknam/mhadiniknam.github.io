@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
+        },{id: "nav-bsc-thesis",
+          title: "BSc Thesis",
+          description: "HAS-RL: Human-Adaptive Safe Reinforcement Learning for Clinician-Configured Force Safety in Robotic Ultrasound Spinal Scanning",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/thesis/";
+          },
         },{id: "nav-cv",
           title: "cv",
           description: "Curriculum Vitae of Mohammad Hadi Niknam. Live Overleaf version is available here.",
