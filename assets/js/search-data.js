@@ -23,13 +23,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
-        },{id: "nav-bsc-thesis",
-          title: "BSc Thesis",
-          description: "HAS-RL: Human-Adaptive Safe Reinforcement Learning for Clinician-Configured Force Safety in Robotic Ultrasound Spinal Scanning",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/thesis/";
-          },
         },{id: "nav-cv",
           title: "cv",
           description: "Curriculum Vitae of Mohammad Hadi Niknam. Live Overleaf version is available here.",
@@ -51,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-a-post-with-pseudo-code",
+            },{id: "post-has-rl-clinician-configured-force-safety-in-robotic-ultrasound-bsc-thesis",
+        
+          title: "HAS-RL: Clinician-Configured Force Safety in Robotic Ultrasound (BSc Thesis)",
+        
+        description: "Bachelor of Science thesis introducing HAS-RL for operator-conditioned force safety in robotic ultrasound spinal scanning — complete English research paper &amp; Persian AUT thesis.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/has-rl-bachelor-thesis/";
+          
+        },
+      },{id: "post-a-post-with-pseudo-code",
         
           title: "a post with pseudo code",
         
