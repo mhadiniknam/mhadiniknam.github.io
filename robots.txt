@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://mhadiniknam.github.io/sitemap.xml
+Sitemap: https://nicknam.tech/sitemap.xml
