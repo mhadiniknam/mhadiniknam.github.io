@@ -11,6 +11,8 @@
       value: niknam@aut.ac.ir
     - name: Phone
       value: "+98-9918017161"
+    - name: Website
+      value: <a href="https://nicknam.tech" target="_blank">nicknam.tech</a>
     - name: Online CV
       links:
         - name: Overleaf Live Version
