@@ -39,7 +39,7 @@ For my **BSc Thesis**, I developed [**HAS-RL**](/blog/2026/has-rl-bachelor-thesi
 
 ### Current Research Engagements
 
-- **Dr. Javad Alirezaie Lab (Toronto Metropolitan University, Canada — Remote):** Serving as Research Project Coordinator and Research Assistant. Leading undergraduate research on lightweight super-resolution architectures, neural architecture search via reinforcement learning (**SRIQL**, **URLSR**), and low-precision network quantization (**QuantaSR**).
+- **Dr. Javad Alirezaie Lab (Toronto Metropolitan University, Canada — Remote):** Serving as Research Project Coordinator and Research Assistant. Leading undergraduate research on lightweight super-resolution architectures, neural architecture search via reinforcement learning (**SRIQL**, [**URLSR**](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7607645)), and low-precision network quantization (**QuantaSR**).
 - **Shafa Yahyaian Hospital, Iran University of Medical Sciences:** Research Assistant working on fairness-aware operating-room scheduling under capacity constraints, AI diagnostics for osteonecrosis of the jaw, and foundation model adaptation (MedSAM/BTXRD).
 - **CAMP Lab, Technical University of Munich (TUM, Germany — Remote):** Collaborating with **Dr. Nassir Navab** on ultrasound foundation models.
 - **Independent RL Research:** Developing adaptive tail-weighting policy gradient formulations (**TailRL**) for return-percentile credit assignment.

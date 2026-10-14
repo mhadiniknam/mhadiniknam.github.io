@@ -74,7 +74,7 @@
           contents:
             - "Designed RL-based neural architecture search over lightweight super-resolution blocks."
             - "SRIQL: Implicit Q Learning for Ultralight-weight Image Super Resolution (ICASSP / IEEE Conference) — SOTA on DIV2K / Set14 / Set5 / Urban100 by 1 dB PSNR."
-            - "URLSR: Efficient Image Super Resolution Network using Neural Operations and Reinforcement Learning (Under Review, BMC Medical Informatics and Decision Making)."
+            - "URLSR: Designing Ultralight-weight Image Super Resolution Network using Reinforcement Learning (Under Review, BMC Medical Informatics and Decision Making · <a href='https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7607645' target='_blank'>SSRN Preprint</a> · <a href='https://doi.org/10.2139/ssrn.7607645' target='_blank'>DOI</a>)."
 
     - title: Research Assistant
       institution: Shafa Yahyaian Hospital, Iran University of Medical Sciences
