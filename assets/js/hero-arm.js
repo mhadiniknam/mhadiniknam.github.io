@@ -66,12 +66,16 @@
         B: 3,   // alpha bands along each trail
         ps: [],
         reset() {
-            const n = Math.round(Math.max(260, Math.min(900, (W * H) / 1000)));
+            const n = Math.round(Math.max(220, Math.min(450, (W * H) / 2200)));
             this.ps = [];
             for (let i = 0; i < n; i++) {
                 const p = { hx: new Float32Array(this.L), hy: new Float32Array(this.L), head: 0, life: 0, max: 0, c: 0 };
                 this.spawn(p, true);
                 this.ps.push(p);
+            }
+            // Pre-warm simulation so trails are fully drawn on the very first frame
+            for (let k = 0; k < 22; k++) {
+                this.step(16.67, 1000 + k * 16.67, []);
             }
         },
         spawn(p, initial) {
