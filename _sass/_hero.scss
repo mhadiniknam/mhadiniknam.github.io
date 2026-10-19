@@ -1,25 +1,38 @@
 /* -----------------------------------------------------------------------------
- * Interactive Robot Arm Hero Section (Adapted from clthegoat.github.io)
+ * Full-Bleed Robot Arm & Flow Field Hero (Directly ported from clthegoat.github.io)
  * ----------------------------------------------------------------------------- */
 
-.hero-stage {
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --fg: #18202c;
+  --muted: #596273;
+  --line: #dde2ea;
+  --accent: #2453c4;
+  --accent-2: #d3741f;
+  --hero-bg-contrast: rgba(246, 247, 249, 0.92);
+}
+
+html[data-theme="dark"] {
+  --bg: #0e1218;
+  --surface: #161c25;
+  --fg: #e4e8ef;
+  --muted: #97a1b1;
+  --line: #262e3b;
+  --accent: #83a9ff;
+  --accent-2: #f0a058;
+  --hero-bg-contrast: rgba(14, 18, 24, 0.92);
+}
+
+.hero {
   position: relative;
   overflow: hidden;
-  border-radius: 14px;
-  margin-top: 0.5rem;
-  margin-bottom: 2.5rem;
-  padding: 2.5rem 2.25rem 2rem;
-  min-height: 300px;
-  background-color: var(--global-card-bg-color);
-  border: 1px solid var(--global-divider-color);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-
-  &:hover {
-    border-color: rgba(var(--global-theme-color), 0.35);
-  }
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: var(--global-bg-color, var(--bg));
 
   /* Canvases: particle flow & robot arm */
   canvas {
@@ -29,152 +42,178 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 0;
   }
 
-  .hero-inner {
+  .wrap.hero-inner {
     position: relative;
     z-index: 1;
-    pointer-events: auto;
-  }
-
-  .hero-header-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    max-width: 64rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 36rem);
     gap: 2.25rem;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-    }
+    align-items: start;
+    padding-block: 4rem 5.5rem;
   }
 
-  .hero-avatar {
-    flex-shrink: 0;
-    text-align: center;
+  .portrait {
+    margin: 0;
 
-    .hero-avatar-img {
-      width: 145px;
-      height: 145px;
+    img {
+      width: 11rem;
+      height: auto;
+      aspect-ratio: 1;
       object-fit: cover;
-      display: block;
-      margin: 0 auto;
-      border: 3px solid var(--global-card-bg-color);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     }
 
-    .hero-avatar-info {
-      margin-top: 0.75rem;
-      font-size: 0.8rem;
-      font-family: monospace;
-      color: var(--global-text-color-light);
+    figcaption {
+      margin-top: 0.5rem;
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
       line-height: 1.45;
-
-      p {
-        margin: 0;
-      }
-
-      a {
-        color: var(--global-theme-color);
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
+      color: var(--muted);
     }
   }
 
-  .hero-intro {
-    flex: 1;
+  .hero-copy {
+    position: relative;
     min-width: 0;
-    /* Soft backdrop gradient so text remains easily legible over particles */
-    background: radial-gradient(ellipse at left, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 65%, transparent 100%);
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
+    isolation: isolate;
 
-    .hero-title {
-      font-size: 2.35rem;
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-      color: var(--global-text-color);
-      letter-spacing: -0.02em;
-      line-height: 1.15;
+    /* Soft radial backdrop so the animation never fights the text */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -2.5rem -3.5rem;
+      z-index: -1;
+      background: radial-gradient(farthest-side, var(--hero-bg-contrast) 62%, transparent 100%);
+      pointer-events: none;
+    }
 
-      @media (max-width: 576px) {
-        font-size: 1.85rem;
+    .eyebrow {
+      margin: 0;
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    h1 {
+      margin: 0.45rem 0 1.1rem;
+      font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+      font-weight: 600;
+      font-size: clamp(2.4rem, 5.5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+      text-wrap: balance;
+
+      .persian-name {
+        margin-left: 0.6rem;
+        font-family: "Vazirmatn", "Sahel", system-ui, sans-serif;
+        font-weight: 400;
+        font-size: 0.52em;
+        color: var(--muted);
+        vertical-align: middle;
       }
     }
 
-    .hero-subtitle {
+    p {
+      margin: 0 0 0.95rem;
+      font-family:
+        "Source Sans 3",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
       font-size: 1.05rem;
-      color: var(--global-text-color-light);
-      margin-bottom: 0.85rem;
-      line-height: 1.45;
+      line-height: 1.6;
+      color: var(--fg);
 
       a {
-        color: var(--global-theme-color);
-        font-weight: 500;
+        color: var(--accent);
         text-decoration: none;
 
         &:hover {
           text-decoration: underline;
+          text-underline-offset: 3px;
         }
       }
     }
 
-    .hero-tagline {
-      font-size: 0.95rem;
-      color: var(--global-text-color);
-      line-height: 1.55;
-      margin-bottom: 1rem;
-      max-width: 480px;
-    }
-
-    .hero-tags {
+    .contact {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.55rem;
+      margin: 1.35rem 0 0;
+      padding: 0;
+      list-style: none;
 
-      .hero-pill {
+      li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.3rem 0.8rem;
-        font-size: 0.8rem;
-        font-weight: 500;
+        gap: 0.45rem;
+        padding: 0.32rem 0.9rem;
+        border: 1px solid var(--line);
         border-radius: 999px;
-        background: rgba(0, 118, 223, 0.08);
-        color: var(--global-theme-color);
-        border: 1px solid rgba(0, 118, 223, 0.2);
+        background: var(--surface);
+        color: var(--fg);
+        font-family:
+          "Source Sans 3",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        font-weight: 600;
+        font-size: 0.92rem;
+        text-decoration: none;
         transition:
-          transform 0.2s ease,
-          background 0.2s ease;
+          border-color 0.18s ease,
+          color 0.18s ease,
+          transform 0.18s ease,
+          box-shadow 0.18s ease;
 
         &:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+          text-decoration: none;
           transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         i {
-          font-size: 0.85em;
+          font-size: 0.88em;
         }
       }
     }
   }
 }
 
-/* Dark mode adjustments for backdrop and tags */
-[data-theme="dark"] .hero-stage {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+@media (max-width: 768px) {
+  .hero {
+    .wrap.hero-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      padding-block: 2.5rem 8.5rem;
+    }
 
-  .hero-intro {
-    background: radial-gradient(ellipse at left, rgba(33, 37, 41, 0.88) 0%, rgba(33, 37, 41, 0.45) 65%, transparent 100%);
-  }
-
-  .hero-pill {
-    background: rgba(38, 152, 186, 0.12);
-    border-color: rgba(38, 152, 186, 0.3);
+    .portrait img {
+      width: 7.5rem;
+    }
   }
 }

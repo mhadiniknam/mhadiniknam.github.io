@@ -27,13 +27,13 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Welcome to my personal website! I am **Mohammad Hadi Niknam**, an undergraduate Computer Science student at [Amirkabir University of Technology (Tehran Polytechnic)](https://aut.ac.ir/en). My academic goal is to build theoretically grounded, reliable machine learning systems at the intersection of reinforcement learning, control theory, and high-impact medical applications.
-
-Currently, my research focuses on:
+### Research Focus
 
 - **Reinforcement Learning (RL):** RL Theory, LLM Alignment & Preference Modeling, Decision Making Under Uncertainty, and Multi-Agent RL.
 - **Medical Robotics:** Robot learning, human-adaptive compliance control, and ultrasound-guided robotic arms.
 - **Medical AI:** Medical imaging, foundation models for healthcare, and clinically robust decision-making.
+
+### BSc Thesis Highlight
 
 For my **BSc Thesis**, I developed [**HAS-RL**](/blog/2026/has-rl-bachelor-thesis/): _Human-Adaptive Safe Reinforcement Learning for Clinician-Configured Force Safety in Robotic Ultrasound Spinal Scanning_ (see the [bilingual thesis post](/blog/2026/has-rl-bachelor-thesis/) or download the [research paper](/assets/pdf/has_rl_paper.pdf) and [AUT defense thesis](/assets/pdf/AUTthesis.pdf)).
 

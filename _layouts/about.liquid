@@ -2,51 +2,6 @@
 layout: default
 ---
 <div class="post">
-  <!-- Interactive Robot Arm & Particle Flow Hero (from clthegoat.github.io) -->
-  <div class="hero-stage" id="hero">
-    <canvas id="hero-flow" aria-hidden="true"></canvas>
-    <canvas id="hero-arm" aria-hidden="true"></canvas>
-
-    <div class="hero-inner">
-      <div class="hero-header-row">
-        {% if page.profile %}
-          <div class="hero-avatar">
-            {% if page.profile.image %}
-              {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
-              <img
-                src="{{ profile_image_path | relative_url }}"
-                alt="{{ site.first_name }} {{ site.last_name }}"
-                class="hero-avatar-img {% if page.profile.image_circular %}rounded-circle{% else %}rounded{% endif %}"
-                loading="eager"
-              >
-            {% endif %}
-            {% if page.profile.more_info %}
-              <div class="hero-avatar-info">{{ page.profile.more_info }}</div>
-            {% endif %}
-          </div>
-        {% endif %}
-
-        <div class="hero-intro">
-          <h1 class="hero-title">
-            {% if site.title == 'blank' %}
-              <span class="font-weight-bold">{{ site.first_name }}</span> {{ site.middle_name }}
-              {{ site.last_name }}
-            {% else %}
-              {{ site.title }}
-            {% endif %}
-          </h1>
-          <p class="hero-subtitle">{{ page.subtitle }}</p>
-
-          <div class="hero-tags">
-            <span class="hero-pill"><i class="fa-solid fa-robot"></i> Medical Robotics</span>
-            <span class="hero-pill"><i class="fa-solid fa-shield-halved"></i> Safe RL</span>
-            <span class="hero-pill"><i class="fa-solid fa-brain"></i> Medical AI</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <article>
     <div class="clearfix">{{ content }}</div>
 

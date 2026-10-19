@@ -1,7 +1,7 @@
-// Interactive Robotic Arm & Particle Flow Field Animation
-// Adapted from https://clthegoat.github.io/ for Mohammad Hadi Niknam's personal website.
-// Uses FABRIK (Forward And Backward Reaching Inverse Kinematics) to track cursor motion,
-// stirs background value-noise flow particles with the gripper, and displays live joint angles.
+// Header animation: a flow field of particles with a robot arm on top.
+// The arm follows the cursor with FABRIK inverse kinematics and stirs the flow with its gripper.
+// Pauses when the header is off screen or the tab is hidden; draws one still frame for reduced motion.
+// Adapted directly from clthegoat.github.io for https://nicknam.tech
 (() => {
     const root = document.documentElement;
     const stage = document.getElementById('hero');
@@ -9,7 +9,6 @@
     const cvB = document.getElementById('hero-flow');
     const cvF = document.getElementById('hero-arm');
     if (!cvB || !cvF) return;
-
     const bg = cvB.getContext('2d');
     const fg = cvF.getContext('2d');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -19,49 +18,30 @@
     const pointer = { x: 0, y: 0, active: false, down: false, seen: -1e9 };
     let C = {};
 
-    function parseColor(val, fallback) {
-        if (!val) return fallback;
-        val = val.trim();
-        if (val.startsWith('#') || val.startsWith('rgb')) return val;
-        return fallback;
-    }
-
     function readColors() {
         const cs = getComputedStyle(root);
         const g = n => cs.getPropertyValue(n).trim();
-        const theme = root.getAttribute('data-theme') || (sysDark.matches ? 'dark' : 'light');
-        const isDark = theme === 'dark';
-
-        const fgCol = parseColor(g('--global-text-color'), isDark ? '#e4e8ef' : '#18202c');
-        const mutedCol = parseColor(g('--global-text-color-light'), isDark ? '#97a1b1' : '#6c757d');
-        const surfaceCol = parseColor(g('--global-card-bg-color') || g('--global-bg-color'), isDark ? '#212529' : '#ffffff');
-        const accentCol = parseColor(g('--global-theme-color'), isDark ? '#2698ba' : '#0076df');
-        const accent2Col = isDark ? '#f0a058' : '#e65100';
-
-        C = { fg: fgCol, muted: mutedCol, surface: surfaceCol, accent: accentCol, accent2: accent2Col };
+        const isDark = root.getAttribute('data-theme') === 'dark' ||
+                       (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        C = {
+            fg: g('--fg') || (isDark ? '#e4e8ef' : '#18202c'),
+            muted: g('--muted') || (isDark ? '#97a1b1' : '#596273'),
+            surface: g('--surface') || (isDark ? '#161c25' : '#ffffff'),
+            accent: g('--accent') || (isDark ? '#83a9ff' : '#2453c4'),
+            accent2: g('--accent-2') || (isDark ? '#f0a058' : '#d3741f')
+        };
     }
 
-    function rgba(col, a) {
-        if (!col) return `rgba(128,128,128,${a})`;
-        col = col.trim();
-        if (col.startsWith('rgb')) {
-            const m = col.match(/[\d.]+/g);
-            if (m && m.length >= 3) {
-                return `rgba(${m[0]},${m[1]},${m[2]},${a})`;
-            }
-        }
-        if (col.startsWith('#')) {
-            let h = col.slice(1);
-            if (h.length === 3) h = h.split('').map(c => c + c).join('');
-            const n = parseInt(h, 16);
-            if (!isNaN(n)) {
-                return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-            }
-        }
-        return `rgba(128,128,128,${a})`;
+    function rgba(hex, a) {
+        if (!hex || hex[0] !== '#') return `rgba(128, 128, 128, ${a})`;
+        let h = hex.slice(1);
+        if (h.length === 3) h = h.split('').map(c => c + c).join('');
+        const n = parseInt(h, 16);
+        if (isNaN(n)) return `rgba(128, 128, 128, ${a})`;
+        return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
     }
 
-    // ---------- Value Noise ----------
+    // ---------- value noise ----------
     function hash(i, j, k) {
         let h = (Math.imul(i, 374761393) + Math.imul(j, 668265263) + Math.imul(k, 1440662683)) | 0;
         h = Math.imul(h ^ (h >>> 13), 1274126177);
@@ -80,13 +60,13 @@
             w);
     }
 
-    // ---------- Particle Flow Field ----------
+    // ---------- flow field ----------
     const Flow = {
         L: 19,  // trail length in frames
         B: 3,   // alpha bands along each trail
         ps: [],
         reset() {
-            const n = Math.round(Math.max(220, Math.min(800, (W * H) / 1100)));
+            const n = Math.round(Math.max(260, Math.min(900, (W * H) / 1000)));
             this.ps = [];
             for (let i = 0; i < n; i++) {
                 const p = { hx: new Float32Array(this.L), hy: new Float32Array(this.L), head: 0, life: 0, max: 0, c: 0 };
@@ -136,7 +116,7 @@
             bg.lineCap = 'butt';
             bg.lineJoin = 'round';
             for (let c = 0; c < 2; c++) {
-                const col = c ? C.accent2 : C.accent, base = c ? 0.55 : 0.45;
+                const col = c ? C.accent2 : C.accent, base = c ? 0.6 : 0.5;
                 for (let b = 0; b < B; b++) {
                     bg.strokeStyle = rgba(col, base * (1 - b / B));
                     bg.beginPath();
@@ -155,7 +135,7 @@
         }
     };
 
-    // ---------- Robot Arm (4-DOF with FABRIK Kinematics) ----------
+    // ---------- robot arm ----------
     const Arm = {
         n: 4,
         ratios: [0.34, 0.3, 0.22, 0.14],
@@ -165,7 +145,7 @@
             this.reach = Math.max(140, Math.min(W * 0.42, H * 0.9, 440));
             this.sc = Math.max(0.55, Math.min(1, this.reach / 360));
             this.lens = this.ratios.map(r => r * this.reach);
-            this.base = { x: W - Math.max(64, Math.min(W * 0.16, 190)), y: H - 18 * this.sc };
+            this.base = { x: W - Math.max(64, Math.min(W * 0.16, 190)), y: H - 20 * this.sc };
             this.P = [{ x: this.base.x, y: this.base.y }];
             let ang = -Math.PI / 2 - 0.25;
             for (let i = 0; i < this.n; i++) {
@@ -187,6 +167,8 @@
                 y: b.y - r * 0.6 + Math.sin(t * 0.0011) * r * 0.22
             };
         },
+        // Forward pass from the base with joint limits, so the arm never folds back on itself.
+        // The first joint stays within 80° of vertical, the others within 120° of the previous link.
         forward() {
             const P = this.P, L = this.lens, b = this.base;
             P[0].x = b.x;
@@ -207,6 +189,7 @@
             const P = this.P, L = this.lens, n = this.n, b = this.base;
             const total = L.reduce((a, c) => a + c, 0);
             if (Math.hypot(tx - b.x, ty - b.y) >= total * 0.999) {
+                // out of reach: point straight at the target
                 P[0].x = b.x;
                 P[0].y = b.y;
                 for (let i = 0; i < n; i++) {
@@ -232,6 +215,7 @@
         frame(dt, t) {
             const idle = !pointer.active || t - pointer.seen > 4000;
             const tg = idle ? this.idleTarget(t) : { x: pointer.x, y: Math.min(pointer.y, H - 24) };
+            // aim the wrist so the fingertips, not the wrist, land on the target
             const wx = tg.x - this.u.x * 16 * this.sc, wy = tg.y - this.u.y * 16 * this.sc;
             const a = 1 - Math.exp(-dt / 140);
             this.s.x += (wx - this.s.x) * a;
@@ -248,7 +232,7 @@
             ctx.save();
             ctx.globalAlpha = W < 720 ? 0.6 : 1;
 
-            // Base plate
+            // base plate
             ctx.beginPath();
             ctx.moveTo(b.x - 40 * sc, H + 1);
             ctx.lineTo(b.x - 26 * sc, b.y);
@@ -261,7 +245,7 @@
             ctx.strokeStyle = rgba(C.fg, 0.7);
             ctx.stroke();
 
-            // Target crosshair and tracking line
+            // target crosshair and tracking line
             const e = P[n];
             if (tg) {
                 ctx.setLineDash([3, 4]);
@@ -283,7 +267,7 @@
                 ctx.stroke();
             }
 
-            // Links
+            // links
             const widths = [14, 11, 8.5, 6.5].map(w => w * sc);
             ctx.lineCap = 'round';
             for (let i = 0; i < n; i++) {
@@ -302,7 +286,7 @@
                 ctx.stroke();
             }
 
-            // Gripper
+            // gripper
             const u = this.u, nx = -u.y, ny = u.x;
             const open = (1 - this.grip) * 10 * sc + 3 * sc, fl = 20 * sc;
             ctx.lineWidth = 3 * sc + 0.5;
@@ -317,7 +301,7 @@
                 ctx.stroke();
             }
 
-            // Joints
+            // joints
             for (let i = 0; i <= n; i++) {
                 const p = P[i], r = (widths[Math.min(i, n - 1)] / 2 + 4) * (i === n ? 0.8 : 1);
                 ctx.beginPath();
@@ -333,7 +317,7 @@
                 ctx.fill();
             }
 
-            // Live joint-angle readout (q = [ ... ])
+            // joint-angle readout
             if (W >= 480) {
                 const q = [];
                 let prev = -Math.PI / 2;
@@ -349,7 +333,7 @@
                     const d = Math.round(-r * 180 / Math.PI);
                     return ((d >= 0 ? '+' : '−') + Math.abs(d) + '°').padStart(5, ' ');
                 }).join(' ') + ' ]';
-                ctx.font = '500 11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
+                ctx.font = '500 11px "IBM Plex Mono", ui-monospace, Menlo, monospace';
                 ctx.fillStyle = rgba(C.muted, 0.95);
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'alphabetic';
@@ -359,7 +343,7 @@
         }
     };
 
-    // ---------- Animation Loop ----------
+    // ---------- loop ----------
     function tick(dt, t) {
         const stirs = [Arm.tip()];
         if (pointer.active) stirs.push(pointer);
@@ -419,7 +403,7 @@
         reset();
     }
 
-    // ---------- Event Listeners ----------
+    // ---------- events ----------
     function setPointer(e) {
         const r = stage.getBoundingClientRect();
         pointer.x = e.clientX - r.left;
@@ -427,7 +411,6 @@
         pointer.active = true;
         pointer.seen = performance.now();
     }
-
     stage.addEventListener('pointermove', setPointer);
     stage.addEventListener('pointerdown', e => { setPointer(e); pointer.down = true; });
     stage.addEventListener('pointerleave', () => { pointer.active = false; pointer.down = false; });
@@ -437,7 +420,6 @@
         readColors();
         if (reduce.matches) still();
     }
-
     new MutationObserver(onTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     sysDark.addEventListener('change', onTheme);
 
@@ -446,7 +428,7 @@
     new IntersectionObserver(es => { inView = es[0].isIntersecting; sync(); }).observe(stage);
     new ResizeObserver(resize).observe(stage);
 
-    // Fade animation out as the user scrolls past
+    // fade the animation out as the header scrolls away
     window.addEventListener('scroll', () => {
         const o = Math.max(0, 1 - window.scrollY / (stage.offsetHeight * 0.85));
         cvB.style.opacity = o;

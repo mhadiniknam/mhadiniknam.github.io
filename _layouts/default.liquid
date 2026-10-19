@@ -20,8 +20,12 @@
     <!-- Header -->
     {% include header.liquid %}
 
+    {% if page.layout == 'about' %}
+      {% include hero.liquid %}
+    {% endif %}
+
     <!-- Content -->
-    <div class="container mt-5" role="main">
+    <div class="container {% if page.layout == 'about' %}mt-4 pt-2{% else %}mt-5{% endif %}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">
