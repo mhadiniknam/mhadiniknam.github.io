@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-has-rl-clinician-configured-force-safety-in-robotic-ultrasound-bsc-thesis",
+            },{id: "post-human-exclusive-information-channels-cryptographic-amp-perceptual-obfuscation-against-large-language-models",
+        
+          title: "Human-Exclusive Information Channels: Cryptographic &amp; Perceptual Obfuscation Against Large Language Models",
+        
+        description: "A comprehensive analysis and interactive research laboratory investigating cryptographic, tokenizer-splitting, and temporal anti-screenshot methods to deliver text exclusively to human readers while remaining opaque to LLMs and multimodal scrapers.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/cryptographic-text-hiding-from-llms/";
+          
+        },
+      },{id: "post-has-rl-clinician-configured-force-safety-in-robotic-ultrasound-bsc-thesis",
         
           title: "HAS-RL: Clinician-Configured Force Safety in Robotic Ultrasound (BSc Thesis)",
         
