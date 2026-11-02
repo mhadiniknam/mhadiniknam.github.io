@@ -44,14 +44,14 @@
     let W = 0,
       H = 0,
       dpr = 1;
-    let tier = 2; // Default tier: 1=AES Hex, 2=Font Cipher, 3=BPE Split, 4=Temporal Noise
-    const pointer = { x: -999, y: -999, active: false, radius: 115 };
+    let tier = 3; // Default tier: 3=BPE Shatter
+    const pointer = { x: -999, y: -999, active: false, radius: 125 };
 
     const plainLines = [
-      "HUMAN-EXCLUSIVE INFORMATION CHANNEL",
-      "Publicly visible to biological eyes,",
-      "cryptographically opaque to scrapers,",
-      "tokenizers, and multimodal vision AI.",
+      "DISSECTING ASYMMETRIC PERCEPTUAL CHANNELS",
+      "Transparent to biological perception and human appraisal,",
+      "cryptographically opaque to automated scraping agents,",
+      "subword tokenizers, and multimodal vision architectures.",
     ];
 
     const cipherMap = "Ø7#kP9@mQ2$vL5*xZ8!wR4&nJ6^yT3%cF1+hB0~gD";
@@ -63,7 +63,7 @@
           out += " ";
           continue;
         }
-        const idx = ( str.charCodeAt(i) * 7 + i * 3 + tOffset ) % cipherMap.length;
+        const idx = (str.charCodeAt(i) * 7 + i * 3 + tOffset) % cipherMap.length;
         out += cipherMap[idx];
       }
       return out;
@@ -78,19 +78,30 @@
       return out.slice(0, str.length);
     }
 
-    function toBPEShatter(str) {
-      return str
-        .split("")
-        .map((c, i) => (c === " " ? " " : i % 2 === 0 ? c + "¦" : c))
-        .join("")
-        .slice(0, str.length + 6);
+    const bpePool = [
+      "[421]", "[99401]", "[11892]", "[239]", "[981]", "[8420]", "[51]",
+      "[773]", "[1928]", "[4012]", "[6081]", "[319]", "[8841]", "[12]"
+    ];
+    function toBPEShatter(str, rowIdx, tTick) {
+      const words = str.split(" ");
+      return words
+        .map((w, wi) => {
+          const t1 = bpePool[(wi * 3 + rowIdx * 5 + tTick) % bpePool.length];
+          if (w.length <= 4) {
+            return `${t1} ${w}`;
+          }
+          const cut = Math.floor(w.length * 0.55);
+          const t2 = bpePool[(wi * 7 + rowIdx * 3 + tTick + 2) % bpePool.length];
+          return `${t1} ${w.slice(0, cut)}¦${t2} ${w.slice(cut)}`;
+        })
+        .join(" ");
     }
 
     function resize() {
       const r = cv.parentElement.getBoundingClientRect();
       dpr = Math.min(2, window.devicePixelRatio || 1);
       W = Math.max(300, Math.round(r.width));
-      H = 260;
+      H = 280;
       cv.width = W * dpr;
       cv.height = H * dpr;
       cv.style.height = H + "px";
@@ -111,7 +122,7 @@
       btn.addEventListener("click", () => {
         document.querySelectorAll("[data-hero-tier]").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        tier = parseInt(btn.getAttribute("data-hero-tier"), 10) || 1;
+        tier = parseInt(btn.getAttribute("data-hero-tier"), 10) || 3;
       });
     });
 
@@ -122,8 +133,8 @@
 
       // Subtle background grid
       ctx.strokeStyle = C.line;
-      ctx.lineWidth = 0.6;
-      const step = 28;
+      ctx.lineWidth = 0.5;
+      const step = 32;
       ctx.beginPath();
       for (let x = 0; x < W; x += step) {
         ctx.moveTo(x, 0);
@@ -136,34 +147,41 @@
       ctx.stroke();
 
       // Auto-orbit lens if pointer not active
-      const lx = pointer.active ? pointer.x : W * 0.5 + Math.cos(t * 0.0014) * (W * 0.25);
-      const ly = pointer.active ? pointer.y : H * 0.52 + Math.sin(t * 0.0021) * (H * 0.22);
+      const lx = pointer.active ? pointer.x : W * 0.5 + Math.cos(t * 0.0012) * (W * 0.28);
+      const ly = pointer.active ? pointer.y : H * 0.52 + Math.sin(t * 0.0018) * (H * 0.2);
       const R = pointer.radius;
 
-      const tTick = Math.floor(t / 140);
+      const tTick = Math.floor(t / 180);
 
       // Draw Machine/Scraper View (Outside Lens)
       ctx.save();
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      const startY = 64;
-      const lineGap = 44;
+      const startY = 72;
+      const lineGap = 46;
 
       plainLines.forEach((line, rowIdx) => {
         const y = startY + rowIdx * lineGap;
-        ctx.font = rowIdx === 0 ? '600 18px "IBM Plex Mono", monospace' : '500 15px "IBM Plex Mono", monospace';
+        ctx.font = rowIdx === 0 ? '600 17px "IBM Plex Mono", monospace' : '500 14px "IBM Plex Mono", monospace';
         let machineStr = "";
         if (tier === 1) machineStr = "0x" + toHexStream(line, tTick + rowIdx);
         else if (tier === 2) machineStr = toCipher(line, rowIdx * 5);
-        else if (tier === 3) machineStr = toBPEShatter(line);
+        else if (tier === 3) machineStr = toBPEShatter(line, rowIdx, tTick);
         else machineStr = toCipher(line, tTick * 3 + rowIdx);
 
-        ctx.fillStyle = tier === 4 ? C.danger : C.muted;
-        ctx.globalAlpha = tier === 4 ? 0.45 : 0.75;
+        if (tier === 3) {
+          ctx.fillStyle = C.dark ? "#58a6ff" : "#2453c4";
+          ctx.globalAlpha = 0.55;
+        } else if (tier === 4) {
+          ctx.fillStyle = C.danger;
+          ctx.globalAlpha = 0.45;
+        } else {
+          ctx.fillStyle = C.muted;
+          ctx.globalAlpha = 0.65;
+        }
         ctx.fillText(machineStr, W / 2, y);
 
         if (tier === 4) {
-          // Draw slicing scanlines / noise speckles for screenshot tier
           for (let s = 0; s < 18; s++) {
             const sx = ((s * 97 + tTick * 31 + rowIdx * 53) % (W - 60)) + 30;
             const sy = y - 12 + ((s * 29 + tTick * 17) % 24);
@@ -183,9 +201,9 @@
       ctx.fillStyle = C.surface;
       ctx.fillRect(lx - R, ly - R, R * 2, R * 2);
 
-      // Subtle glow radial inside lens
-      const grad = ctx.createRadialGradient(lx, ly, R * 0.1, lx, ly, R);
-      grad.addColorStop(0, C.dark ? "rgba(88,166,255,0.12)" : "rgba(36,83,196,0.08)");
+      // Subtle radial glow inside lens
+      const grad = ctx.createRadialGradient(lx, ly, R * 0.05, lx, ly, R);
+      grad.addColorStop(0, C.dark ? "rgba(88,166,255,0.14)" : "rgba(36,83,196,0.09)");
       grad.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = grad;
       ctx.fillRect(lx - R, ly - R, R * 2, R * 2);
@@ -204,38 +222,13 @@
       });
       ctx.restore();
 
-      // Draw Lens Rim & HUD labels
+      // Draw Lens Rim: clean, sleek, minimal
       ctx.save();
       ctx.beginPath();
       ctx.arc(lx, ly, R, 0, Math.PI * 2);
       ctx.strokeStyle = C.accent;
-      ctx.lineWidth = 2.2;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(lx, ly, R + 5, 0, Math.PI * 2);
-      ctx.setLineDash([4, 6]);
-      ctx.strokeStyle = C.accent2;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Tag on lens rim
-      ctx.font = '600 11px "IBM Plex Mono", monospace';
-      ctx.fillStyle = C.accent;
-      ctx.textAlign = "center";
-      ctx.fillText("HUMAN VISUAL CHANNEL (DECODED)", lx, ly - R - 10);
-
-      // Corner HUD status
-      ctx.textAlign = "left";
-      ctx.fillStyle = C.muted;
-      const tierNames = {
-        1: "TIER 1: RAW HTTP SCRAPER (AES-256-GCM CIPHERTEXT)",
-        2: "TIER 2: DOM / CLIPBOARD SCRAPER (CMAP GLYPH PERMUTATION)",
-        3: "TIER 3: LLM BPE TOKENIZER (ZERO-WIDTH SUB-TOKEN SHATTER)",
-        4: "TIER 4: VISION-LLM SCREENSHOT (SINGLE-FRAME TEMPORAL SLICE)",
-      };
-      ctx.fillText("BACKGROUND = WHAT AI SEES [" + tierNames[tier] + "]", 14, H - 12);
       ctx.restore();
 
       requestAnimationFrame(draw);
@@ -345,7 +338,7 @@
     if (!trapSource || !rawDomView) return;
 
     const humanSentence =
-      "Artificial Intelligence models rely on faithful Unicode byte representations in the DOM. While a human reads the rendered vector curves on screen effortlessly, any scraper or clipboard copy-paste captures only the permuted cipher stream.";
+      "Modern linguistic models presuppose an invariant correspondence between DOM codepoints and semantic tokens. When we dissect this foundational assumption, biological vision perceives continuous optical geometry, whereas automated scrapers ingest only permuted cryptographic entropy.";
 
     let currentSeed = 42;
     const cipherAlphabet =
@@ -463,7 +456,9 @@
     }
 
     function render() {
-      const text = inputEl.value || "Reinforcement learning and cryptography";
+      const text =
+        inputEl.value ||
+        "Cryptographic protocols dissect and obfuscate semantic representations against automated neural ingestion.";
       const intensity = parseInt(sliderEl.value, 10) / 100;
       sliderValEl.textContent = Math.round(intensity * 100) + "%";
 

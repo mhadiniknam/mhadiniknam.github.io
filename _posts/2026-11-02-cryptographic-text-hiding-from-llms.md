@@ -22,21 +22,14 @@ featured: true
 
 <div class="heic-hero-wrapper">
   <div class="heic-hero-controls">
-    <div class="heic-title">
-      <i class="fa-solid fa-eye-slash"></i> Threat Hierarchy & Human Perception Lens
-    </div>
     <div class="btn-group" role="group" aria-label="Hero Tiers">
-      <button type="button" class="btn-tier" data-hero-tier="1">Tier 1: WebCrypto Hex</button>
-      <button type="button" class="btn-tier active" data-hero-tier="2">Tier 2: Font Cipher</button>
-      <button type="button" class="btn-tier" data-hero-tier="3">Tier 3: BPE Shatter</button>
-      <button type="button" class="btn-tier" data-hero-tier="4">Tier 4: Temporal Screenshot</button>
+      <button type="button" class="btn-tier active" data-hero-tier="3"><i class="fa-solid fa-bolt"></i> BPE Token Shatter</button>
+      <button type="button" class="btn-tier" data-hero-tier="2"><i class="fa-solid fa-font"></i> Glyph Cipher</button>
+      <button type="button" class="btn-tier" data-hero-tier="1"><i class="fa-solid fa-shield-halved"></i> WebCrypto Hex</button>
+      <button type="button" class="btn-tier" data-hero-tier="4"><i class="fa-solid fa-camera"></i> Temporal Multiplexing</button>
     </div>
   </div>
   <canvas id="heic-hero-canvas"></canvas>
-  <div class="heic-hero-caption">
-    <span><i class="fa-solid fa-arrows-to-dot"></i> Hover or drag pointer across the canvas to decode in real-time</span>
-    <span>Channel Asymmetry: $I(\text{Human}; X) \gg I(\text{AI}; X)$</span>
-  </div>
 </div>
 
 <hr />
@@ -211,7 +204,7 @@ Try selecting the highlighted text below with your mouse, copy it (`Ctrl+C` / `C
           <i class="fa-solid fa-display"></i> Human Viewport (Rendered On Screen)
         </div>
         <div class="cp-interactive-text" id="cp-trap-source" title="Highlight and copy this text!">
-          Artificial Intelligence models rely on faithful Unicode byte representations in the DOM. While a human reads the rendered vector curves on screen effortlessly, any scraper or clipboard copy-paste captures only the permuted cipher stream.
+          Modern linguistic models presuppose an invariant correspondence between DOM codepoints and semantic tokens. When we dissect this foundational assumption, biological vision perceives continuous optical geometry, whereas automated scrapers ingest only permuted cryptographic entropy.
         </div>
         <small class="text-muted mt-2">
           <i class="fa-solid fa-hand-pointer"></i> <em>Highlight the text above and press copy!</em>
@@ -290,7 +283,7 @@ Type any sentence into the prompt box and adjust the perturbation slider to obse
         <label for="bpe-input-text" class="font-weight-bold" style="font-size: 0.9rem;">
           <i class="fa-solid fa-pen-to-square"></i> Input Text Sentence:
         </label>
-        <input type="text" class="form-control" id="bpe-input-text" value="Reinforcement learning algorithms optimize autonomous policy decision making.">
+        <input type="text" class="form-control" id="bpe-input-text" value="Cryptographic protocols dissect and obfuscate semantic representations against automated neural ingestion.">
       </div>
 
       <div class="lab-controls">
@@ -319,7 +312,7 @@ Type any sentence into the prompt box and adjust the perturbation slider to obse
           HUMAN SCREEN RENDER (ZERO VISUAL ARTIFACTS):
         </small>
         <div class="p-2 border rounded bg-white text-dark font-weight-normal" id="bpe-human-render" style="font-size: 1.05rem;">
-          Reinforcement learning algorithms optimize autonomous policy decision making.
+          Cryptographic protocols dissect and obfuscate semantic representations against automated neural ingestion.
         </div>
       </div>
 
