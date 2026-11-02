@@ -6,6 +6,7 @@ description: "A comprehensive analysis and interactive research laboratory inves
 tags: [cryptography, large-language-models, information-security, web-security, tokenization, adversarial-ml]
 categories: [research, cryptography]
 featured: true
+citation: true
 ---
 
 <div class="text-center my-4">
@@ -78,7 +79,7 @@ Under this architecture, automated scrapers (e.g., `curl`, Python's `requests`, 
 If an author attempts to protect their text by encrypting it with a symmetric cipher (such as AES-256) and shipping the decryption key inside their client-side JavaScript bundle (`app.js`), the protection is trivially bypassed: any scraper developer can simply inspect the script, extract the static key, and decrypt the payload in milliseconds.
 
 #### The Solution: The "Proof-of-Work" Computational Tollbooth
-Instead of providing the decryption key directly, the static webpage presents the client with a **mathematical challenge** (a Proof-of-Work puzzle, derived from Adam Back's *Hashcash* [1]):
+Instead of providing the decryption key directly, the static webpage presents the client with a **mathematical challenge** (a Proof-of-Work puzzle, derived from Adam Back's *Hashcash* [[1]](#ref-1)):
 
 ```
 +-------------------------------------------------------------------------------+
@@ -127,7 +128,7 @@ Here is what happens under the hood when a reader navigates to the page:
    Because only the correct nonce satisfies the puzzle, this mathematically reconstructs the exact 256-bit AES key $K$.
 
 4. **Step 4: Ephemeral Decryption & DOM Injection**  
-   Using the W3C native Web Cryptography API (`window.crypto.subtle.decrypt` [7]), the browser decrypts $C$ in $< 1\text{ ms}$ and writes the recovered text into the webpage DOM. The key $K$ is kept strictly in volatile memory and never persisted to cookies, local storage, or disk.
+   Using the W3C native Web Cryptography API (`window.crypto.subtle.decrypt` [[7]](#ref-7)), the browser decrypts $C$ in $< 1\text{ ms}$ and writes the recovered text into the webpage DOM. The key $K$ is kept strictly in volatile memory and never persisted to cookies, local storage, or disk.
 
 ---
 
@@ -227,7 +228,7 @@ In standard typography, the OpenType `cmap` (Character to Glyph Mapping) table p
 
 $$\text{Codepoint } U \xrightarrow{\text{cmap}} \text{Glyph Outline } G(U)$$
 
-In a **Bijective Glyph Substitution Channel**, the publisher dynamically generates a session-keyed permutation $\pi \in S_{|\Sigma|}$ across the printable character alphabet $\Sigma$. The underlying DOM tree contains exclusively permuted codepoints:
+In a **Bijective Glyph Substitution Channel** (building upon adversarial typography and glyph perturbation principles [[6]](#ref-6)), the publisher dynamically generates a session-keyed permutation $\pi \in S_{|\Sigma|}$ across the printable character alphabet $\Sigma$. The underlying DOM tree contains exclusively permuted codepoints:
 
 $$c_i = \pi(m_i)$$
 
@@ -310,12 +311,12 @@ $$\mathbf{e} = \mathbf{E}[42191] \in \mathbb{R}^d$$
 
 ### 5.2 Adversarial Unicode Perturbation
 
-By injecting zero-width non-printing codepoints—specifically:
+As established by Boucher et al. in *Bad Characters* [[2]](#ref-2), modern subword tokenizers (BPE, WordPiece) are acutely fragile to imperceptible code-point injections. By injecting zero-width non-printing codepoints—specifically:
 * `U+200B` (Zero-Width Space)
 * `U+200C` (Zero-Width Non-Joiner)
 * `U+2060` (Word Joiner)
 
-or substituting identical visual glyphs with their **Cyrillic or Greek homoglyphs** (e.g., Latin `'a'` $\rightarrow$ Cyrillic `'а'` `U+0430`, Latin `'o'` $\rightarrow$ Cyrillic `'о'` `U+043E`), the human visual perception is invariant:
+or substituting identical visual glyphs with their **Cyrillic or Greek homoglyphs** (e.g., Latin `'a'` $\rightarrow$ Cyrillic `'а'` `U+0430`, Latin `'o'` $\rightarrow$ Cyrillic `'о'` `U+043E`) [[4]](#ref-4), [[5]](#ref-5), the human visual perception is invariant:
 
 $$\text{Render}(W) \equiv \text{Render}(W_{\text{adv}})$$
 
@@ -434,7 +435,7 @@ We decompose every glyph outline into $K = 3$ to $5$ disjoint spatial sub-dot ma
 * **Over $60\text{ ms}$ (Human Eye):** The human visual cortex integrates the alternating frames over time, perceiving crisp, continuous letterforms floating seamlessly above a faint gray backdrop.
 
 #### Method B: Kinetic Counter-Phase Random-Dot Kinematograms (RDK)
-Pioneered in visual neuroscience by Béla Julesz, an RDK renders foreground text and background using identical random dot distributions. 
+Pioneered in visual neuroscience by Béla Julesz [[3]](#ref-3), an RDK renders foreground text and background using identical random dot distributions. 
 * Background dots drift continuously to the right at speed $+v$.
 * Foreground text dots drift to the left at speed $-v$.
 * In any frozen screenshot, the spatial statistics of foreground and background are **identically distributed** ($D_{\text{KL}}(P_{\text{text}} \parallel P_{\text{bg}}) = 0$), rendering it mathematically impossible for any static image model to segment the text.
@@ -550,22 +551,22 @@ Key open challenges include:
 
 The four defensive tiers synthesized in this treatise build upon seminal results across distributed systems, natural language processing security, typography, and visual psychophysics:
 
-1. **[1] Proof-of-Work & Asymmetric Throttling:**  
+1. <a id="ref-1"></a>**[1] Proof-of-Work & Asymmetric Throttling:**  
    Back, A. (2002). *Hashcash - A Denial of Service Counter-Measure*. Technical Report.  
    *(Introduced computational partial pre-image proof-of-work to impose economic friction on bulk automated senders).*
-2. **[2] Subword & Tokenizer Adversarial Vulnerabilities:**  
+2. <a id="ref-2"></a>**[2] Subword & Tokenizer Adversarial Vulnerabilities:**  
    Boucher, N., Anderson, R., & Almeyda, I. (2022). *Bad Characters: Imperceptible NLP Attacks*. In **IEEE Symposium on Security and Privacy (S&P)**, pp. 1987–2004.  
    *(Demonstrated that imperceptible zero-width codepoints and homoglyphs catastrophically disrupt modern subword tokenizers).*
-3. **[3] Psychophysics of Motion-Defined Perception:**  
+3. <a id="ref-3"></a>**[3] Psychophysics of Motion-Defined Perception:**  
    Julesz, B. (1971). *Foundations of Cyclopean Perception*. The University of Chicago Press.  
    *(Pioneered Random-Dot Kinematograms and proved that human cortical area V5/MT performs temporal integration to perceive shape from motion where static frames contain zero spatial correlation).*
-4. **[4] Adversarial Triggers in NLP:**  
+4. <a id="ref-4"></a>**[4] Adversarial Triggers in NLP:**  
    Wallace, E., Feng, S., Kandpal, N., Gardner, M., & Singh, S. (2019). *Universal Adversarial Triggers for Attacking and Analyzing NLP*. In **EMNLP-IJCNLP 2019**, pp. 2153–2162.
-5. **[5] Robustness & Perturbation Toolkits:**  
+5. <a id="ref-5"></a>**[5] Robustness & Perturbation Toolkits:**  
    Morris, J. X., Lifland, E., Yoo, J. Y., Grigsby, J., Jin, D., & Qi, Y. (2020). *TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversarial Training in NLP*. In **EMNLP 2020**, pp. 119–126.
-6. **[6] Adversarial Typography & Glyph Perturbation:**  
+6. <a id="ref-6"></a>**[6] Adversarial Typography & Glyph Perturbation:**  
    Xiao, C., Cheng, C., Zheng, W., & Dong, Y. (2018). *FontCode: Embedding Information in Text Documents using Glyph Perturbation*. **ACM Transactions on Graphics (SIGGRAPH 2018)**, 37(4).
-7. **[7] In-Browser Native Cryptography:**  
+7. <a id="ref-7"></a>**[7] In-Browser Native Cryptography:**  
    W3C Web Cryptography Working Group. (2017). *Web Cryptography API - W3C Recommendation*. World Wide Web Consortium.
 
 ---
