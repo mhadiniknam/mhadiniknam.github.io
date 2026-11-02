@@ -155,6 +155,7 @@ collections:
 # Markdown and syntax highlight
 markdown: kramdown
 highlighter: rouge
+future: true
 kramdown:
   input: GFM
   syntax_highlighter_opts:

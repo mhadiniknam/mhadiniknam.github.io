@@ -1,0 +1,430 @@
+/* ==========================================================================
+   Interactive Cryptographic & Anti-LLM Research Lab Styles
+   ========================================================================== */
+
+.heic-hero-wrapper {
+  margin: 1.8rem 0 2.5rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  background: var(--global-card-bg-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+
+  .heic-hero-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid var(--global-divider-color);
+
+    .heic-title {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--global-theme-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-group {
+      display: inline-flex;
+      border-radius: 6px;
+      overflow: hidden;
+
+      .btn-tier {
+        background: var(--global-card-bg-color);
+        color: var(--global-text-color-light);
+        border: 1px solid var(--global-divider-color);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.74rem;
+        padding: 0.3rem 0.65rem;
+        cursor: pointer;
+        transition: all 0.18s ease;
+
+        &:not(:last-child) {
+          border-right: none;
+        }
+
+        &:hover {
+          color: var(--global-theme-color);
+          background: rgba(var(--global-theme-color), 0.06);
+        }
+
+        &.active {
+          background: var(--global-theme-color);
+          color: #ffffff;
+          border-color: var(--global-theme-color);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  #heic-hero-canvas {
+    display: block;
+    width: 100%;
+    height: 260px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .heic-hero-caption {
+    padding: 0.55rem 1rem;
+    font-size: 0.78rem;
+    color: var(--global-text-color-light);
+    border-top: 1px solid var(--global-divider-color);
+    background: rgba(0, 0, 0, 0.015);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "IBM Plex Mono", monospace;
+  }
+}
+
+/* Lab Cards */
+.crypto-lab-card {
+  margin: 2.2rem 0;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  background: var(--global-card-bg-color);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+
+  .lab-header {
+    padding: 0.9rem 1.25rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid var(--global-divider-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .lab-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(var(--global-theme-color), 0.1);
+      color: var(--global-theme-color);
+      border: 1px solid rgba(var(--global-theme-color), 0.25);
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--global-text-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .lab-body {
+    padding: 1.25rem;
+  }
+
+  .lab-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--global-divider-color);
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--global-text-color);
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      min-width: 140px;
+      max-width: 280px;
+    }
+
+    .stat-pill {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 6px;
+      border: 1px solid var(--global-divider-color);
+      color: var(--global-text-color);
+    }
+  }
+}
+
+/* Monospace output displays */
+.mono-display-box {
+  background: var(--global-code-bg-color);
+  color: var(--global-text-color);
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--global-divider-color);
+  word-break: break-all;
+  user-select: text;
+  min-height: 54px;
+}
+
+/* Copy-paste sandbox comparison grid */
+.cp-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  .cp-panel {
+    display: flex;
+    flex-direction: column;
+
+    .cp-panel-header {
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+      color: var(--global-text-color-light);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .cp-interactive-text {
+      padding: 1rem;
+      border-radius: 8px;
+      border: 2px dashed var(--global-theme-color);
+      background: rgba(var(--global-theme-color), 0.03);
+      font-size: 1.02rem;
+      line-height: 1.6;
+      color: var(--global-text-color);
+      user-select: all;
+      cursor: text;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(var(--global-theme-color), 0.07);
+      }
+    }
+
+    textarea.cp-paste-input {
+      width: 100%;
+      height: 110px;
+      border-radius: 8px;
+      border: 1px solid var(--global-divider-color);
+      background: var(--global-code-bg-color);
+      color: var(--global-text-color);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
+      padding: 0.75rem;
+      resize: vertical;
+
+      &:focus {
+        border-color: var(--global-theme-color);
+        outline: none;
+      }
+    }
+  }
+}
+
+/* BPE Tokenizer Visualizer */
+.bpe-visualizer {
+  .bpe-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+
+    .bpe-stat-card {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--global-divider-color);
+
+      .stat-label {
+        font-size: 0.72rem;
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        color: var(--global-text-color-light);
+      }
+
+      .stat-val {
+        font-size: 1.15rem;
+        font-weight: 700;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--global-text-color);
+        margin-top: 0.2rem;
+      }
+    }
+  }
+
+  .bpe-tokens-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+    padding: 0.85rem;
+    background: var(--global-code-bg-color);
+    border-radius: 8px;
+    border: 1px solid var(--global-divider-color);
+    min-height: 75px;
+    max-height: 220px;
+    overflow-y: auto;
+
+    .bpe-token-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.5rem;
+      border-radius: 4px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.76rem;
+      border: 1px solid transparent;
+      animation: fadeInToken 0.2s ease-in-out;
+
+      .tk-str {
+        font-weight: 600;
+      }
+
+      .tk-id {
+        font-size: 0.66rem;
+        opacity: 0.75;
+      }
+
+      &.bpe-token-normal {
+        background: rgba(36, 83, 196, 0.1);
+        color: #2453c4;
+        border-color: rgba(36, 83, 196, 0.25);
+      }
+
+      &.bpe-token-homoglyph {
+        background: rgba(207, 34, 46, 0.12);
+        color: #cf222e;
+        border-color: rgba(207, 34, 46, 0.35);
+      }
+
+      &.bpe-token-split {
+        background: rgba(211, 116, 31, 0.12);
+        color: #d3741f;
+        border-color: rgba(211, 116, 31, 0.3);
+      }
+
+      &.bpe-token-zwsp {
+        background: rgba(139, 148, 158, 0.15);
+        color: var(--global-text-color-light);
+        border-color: var(--global-divider-color);
+        font-style: italic;
+      }
+    }
+  }
+}
+
+/* Anti-Screenshot Canvas Container */
+.anti-screenshot-wrapper {
+  #anti-screenshot-canvas {
+    display: block;
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    border: 1px solid var(--global-divider-color);
+    background: #000000;
+  }
+
+  .canvas-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--global-text-color-light);
+    font-family: "IBM Plex Mono", monospace;
+  }
+}
+
+/* Hierarchy Threat Matrix Table */
+.threat-matrix-table {
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 8px;
+  overflow: hidden;
+
+  th,
+  td {
+    padding: 0.75rem 0.95rem;
+    border-bottom: 1px solid var(--global-divider-color);
+    border-right: 1px solid var(--global-divider-color);
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  th {
+    background: rgba(0, 0, 0, 0.03);
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    color: var(--global-text-color);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .status-blocked {
+    color: #1a7f37;
+    font-weight: 600;
+  }
+
+  .status-scrambled {
+    color: #d3741f;
+    font-weight: 600;
+  }
+
+  .status-bypassed {
+    color: #cf222e;
+    font-weight: 500;
+  }
+}
+
+@keyframes fadeInToken {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
