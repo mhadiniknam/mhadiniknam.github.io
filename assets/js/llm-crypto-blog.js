@@ -255,7 +255,7 @@
     if (!btn || !diffSlider) return;
 
     const secretPlaintext =
-      "DECRYPTED PAYLOAD: This paragraph was stored as AES-256-GCM ciphertext in the static HTML. Your browser solved the SHA-256 Proof-of-Work puzzle and derived the session key locally. An automated LLM crawler scraping millions of URLs cannot afford this per-page compute barrier.";
+      "DECRYPTED ARTICLE: This paragraph was stored as AES-256-GCM ciphertext in the static HTML. Your browser solved the SHA-256 Proof-of-Work puzzle and derived the session key locally. An automated LLM crawler scraping millions of URLs cannot afford this per-page compute barrier.";
 
     // Fast FNV/SHA-like 32-bit mixing for responsive UI simulation + WebCrypto SHA-256
     function updateCostEstimate() {

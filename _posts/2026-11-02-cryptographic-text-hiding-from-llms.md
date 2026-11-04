@@ -53,7 +53,7 @@ To design principled defenses, we model the adversarial extractor across four es
 
 | Tier | Adversary Type | Inspection Vector | Extraction Mechanism | Defensive Primitive |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tier 1** | **Raw HTTP Scrapers** (`curl`, `GPTBot`, `CCBot`) | Static HTTP response payload | Ingests raw `.html`, `.json`, or raw byte streams without JS execution | **Client-Side Proof-of-Work + WebCrypto** |
+| **Tier 1** | **Raw HTTP Scrapers** (`curl`, `GPTBot`, `CCBot`) | Static HTTP response body | Ingests raw `.html`, `.json`, or raw byte streams without JS execution | **Client-Side Proof-of-Work + WebCrypto** |
 | **Tier 2** | **Headless Browser & DOM Scrapers** (Playwright, Puppeteer) | Rendered DOM tree / Clipboard events | Queries DOM elements (`innerText`, `textContent`) or fires clipboard copy events | **Bijective Font Glyph Substitution (`cmap`)** |
 | **Tier 3** | **Tokenizer & Latent Ingestion** (BPE, WordPiece) | Unicode codepoints & semantic embeddings | Chunks UTF-8 byte sequences into integer token IDs $\mathbf{z} \in \mathbb{R}^d$ | **Adversarial Subword Splitting & Homoglyphs** |
 | **Tier 4** | **Multimodal Vision-Language Models & OCR** (GPT-4o, Gemini, Screen Scrapers) | Rendered optical viewport | Takes static raster screenshots ($H \times W \times 3$) and runs ViT patch recognition | **Sub-Frame Temporal Multiplexing & Kinetic Parallax** |
@@ -76,7 +76,7 @@ Under this architecture, automated scrapers (e.g., `curl`, Python's `requests`, 
 3. They extract the textual content using simple regex or string parsing with virtually zero CPU overhead ($< 1\text{ ms}$).
 
 #### Why Naive Client-Side Encryption Fails
-If an author attempts to protect their text by encrypting it with a symmetric cipher (such as AES-256) and shipping the decryption key inside their client-side JavaScript bundle (`app.js`), the protection is trivially bypassed: any scraper developer can simply inspect the script, extract the static key, and decrypt the payload in milliseconds.
+If an author attempts to protect their text by encrypting it with a symmetric cipher (such as AES-256) and shipping the decryption key inside their client-side JavaScript bundle (`app.js`), the protection is trivially bypassed: any scraper developer can simply inspect the script, extract the static key, and decrypt the protected text in milliseconds.
 
 #### The Solution: The "Proof-of-Work" Computational Tollbooth
 Instead of providing the decryption key directly or serving plaintext HTML, the static webpage presents the client with a **mathematical challenge** (a Proof-of-Work puzzle, derived from Adam Back's *Hashcash* [[1]](#ref-1)).
@@ -95,7 +95,7 @@ where:
 * $S \in \{0, 1\}^{256}$ is a high-entropy, per-document cryptographic **salt**.
 * $d \in \mathbb{N}$ is the **difficulty target** (specifying the required number of leading zero bits).
 * $\mathbf{iv} \in \{0, 1\}^{96}$ is the standard 12-byte initialization vector for AES-GCM.
-* $C \in \{0, 1\}^*$ is the **ciphertext buffer** containing the encrypted text payload.
+* $C \in \{0, 1\}^*$ is the **ciphertext buffer** containing the encrypted text (the hidden article content).
 * $T \in \{0, 1\}^{128}$ is the 16-byte Poly1305 / GHASH **authentication tag** verifying data integrity.
 
 Here is the exact mathematical lifecycle executed in the client runtime:
@@ -198,7 +198,7 @@ The defensive power relies entirely on the **asymmetry of scale**:
 | **Human User Experience** | **Completely imperceptible** (faster than human ocular saccade) | **Economic collapse** of the web-scraping business model |
 
 #### The Mathematical Asymmetry Explained
-* **For a Human Reader:** The human brain's visual processing threshold is approximately **$100\text{–}200\text{ ms}$**. Running $16,000$ SHA-256 iterations on a modern laptop or smartphone takes roughly **$35\text{ ms}$** in a background Web Worker. By the time the reader's eye finishes tracking to the first headline, the payload has already been unlocked and rendered. The user experiences **zero perceptible friction**.
+* **For a Human Reader:** The human brain's visual processing threshold is approximately **$100\text{–}200\text{ ms}$**. Running $16,000$ SHA-256 iterations on a modern laptop or smartphone takes roughly **$35\text{ ms}$** in a background Web Worker. By the time the reader's eye finishes tracking to the first headline, the protected text has already been unlocked and rendered. The user experiences **zero perceptible friction**.
 * **For an LLM Crawler (e.g., Common Crawl, GPTBot):** Scrapers rely on scraping thousands of pages per second over low-cost cloud instances with minimal CPU overhead. When confronted with a PoW challenge:
   1. **They can no longer use simple HTTP clients:** A standard `curl` or `requests.get()` script receives only undecipherable AES ciphertext hex chunks.
   2. **They must spin up full JavaScript engines:** To solve the challenge, the scraper must run a heavyweight browser instance (such as Headless Chromium / Puppeteer), which increases memory consumption from 5 MB to 200 MB per worker thread.
@@ -221,7 +221,7 @@ Use the simulator below to test client-side cryptographic key derivation. Adjust
       <input type="range" id="pow-diff-slider" min="8" max="20" value="14" step="1">
       <span class="stat-pill" id="pow-diff-val">14 bits</span>
       <button type="button" class="btn btn-sm btn-primary" id="pow-run-btn">
-        <i class="fa-solid fa-key"></i> Mine Nonce & Decrypt Payload
+        <i class="fa-solid fa-key"></i> Mine Nonce & Decrypt Text
       </button>
     </div>
 
@@ -250,12 +250,12 @@ Use the simulator below to test client-side cryptographic key derivation. Adjust
       </div>
     </div>
 
-    <small class="text-muted d-block mb-1 font-monospace">DECRYPTED PAYLOAD BUFFER:</small>
+    <small class="text-muted d-block mb-1 font-monospace">DECRYPTED TEXT BUFFER (ORIGINAL ARTICLE):</small>
     <div class="mono-display-box" id="pow-decrypted-box">
       0x8F4A2C91E0B73D56A14F98C20E5B71D39A4F62C81E0B73D56A14F98C20E5B71D39A4F62C8... [LOCKED CIPHERTEXT]
     </div>
     <div class="mt-2 text-muted" style="font-size: 0.8rem;" id="pow-status">
-      Ready to compute. Payload is encrypted with AES-256-GCM.
+      Ready to compute. Secret article text is encrypted with AES-256-GCM.
     </div>
   </div>
 </div>
@@ -341,7 +341,7 @@ Try selecting the highlighted text below with your mouse, copy it (`Ctrl+C` / `C
         <div class="cp-panel-header text-danger">
           <i class="fa-solid fa-clipboard-check"></i> Paste Verification Sandbox (What AI Receives)
         </div>
-        <textarea class="cp-paste-input" id="cp-paste-target" placeholder="Click here and press Ctrl+V / Cmd+V to inspect copied payload..."></textarea>
+        <textarea class="cp-paste-input" id="cp-paste-target" placeholder="Click here and press Ctrl+V / Cmd+V to inspect what AI receives..."></textarea>
         <small class="text-muted mt-2">
           Underlying DOM Raw Text: <span class="font-monospace text-danger" id="cp-raw-dom" style="font-size: 0.76rem;">Loading...</span>
         </small>
