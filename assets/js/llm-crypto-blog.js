@@ -264,12 +264,19 @@
       const avgHashes = Math.pow(2, d);
       const singleMs = Math.max(2, Math.round(avgHashes / 650));
       const tenMillionHours = ((singleMs / 1000) * 10_000_000) / 3600;
-      scraperCostEl.textContent =
-        "~" +
-        singleMs +
-        " ms for 1 human reader  |  ~" +
-        Math.round(tenMillionHours).toLocaleString() +
-        " CPU-hours for a crawler scraping 10M pages";
+      scraperCostEl.innerHTML = `
+        <span class="cost-metric human-cost">
+          <i class="fa-solid fa-user-check"></i>
+          <span class="cost-label">Human Reader:</span>
+          <span class="cost-value">~${singleMs} ms</span>
+        </span>
+        <span class="cost-separator">|</span>
+        <span class="cost-metric crawler-cost">
+          <i class="fa-solid fa-robot"></i>
+          <span class="cost-label">Crawler Fleet (10M pages):</span>
+          <span class="cost-value">~${Math.round(tenMillionHours).toLocaleString()} CPU-hours</span>
+        </span>
+      `;
     }
 
     diffSlider.addEventListener("input", updateCostEstimate);

@@ -79,56 +79,107 @@ Under this architecture, automated scrapers (e.g., `curl`, Python's `requests`, 
 If an author attempts to protect their text by encrypting it with a symmetric cipher (such as AES-256) and shipping the decryption key inside their client-side JavaScript bundle (`app.js`), the protection is trivially bypassed: any scraper developer can simply inspect the script, extract the static key, and decrypt the payload in milliseconds.
 
 #### The Solution: The "Proof-of-Work" Computational Tollbooth
-Instead of providing the decryption key directly, the static webpage presents the client with a **mathematical challenge** (a Proof-of-Work puzzle, derived from Adam Back's *Hashcash* [[1]](#ref-1)):
+Instead of providing the decryption key directly or serving plaintext HTML, the static webpage presents the client with a **mathematical challenge** (a Proof-of-Work puzzle, derived from Adam Back's *Hashcash* [[1]](#ref-1)).
 
-```
-+-------------------------------------------------------------------------------+
-|                             STATIC SERVER (S3 / GitHub Pages)                 |
-|   Sends: [ Encrypted Payload C ] + [ Random Salt S ] + [ Difficulty Target d ]|
-+-------------------------------------------------------------------------------+
-                                      │
-                                      ▼
-+-------------------------------------------------------------------------------+
-|                            CLIENT BROWSER (V8 / WebAssembly)                  |
-|                                                                               |
-|   1. COMPUTATIONAL SEARCH (Mining):                                           |
-|      Try nonces: η = 0, 1, 2, 3, ...                                          |
-|      Compute: H = SHA-256(Salt ∥ η)                                           |
-|      Target: Does H start with d leading zero bits?                           |
-|                                                                               |
-|   2. CRYPTOGRAPHIC KEY DERIVATION:                                            |
-|      Once η is found ──> K = HKDF-SHA256(Seed ∥ η, Salt, "heic-channel")     |
-|                                                                               |
-|   3. IN-MEMORY DECRYPTION:                                                    |
-|      Plaintext = AES-256-GCM-Decrypt(K, C) ──> Render to Document DOM         |
-+-------------------------------------------------------------------------------+
-```
-
-The server does **not** give the browser the key. Instead, the browser must expend a small, predictable amount of CPU work to "dig" for the key locally.
+The static server does **not** possess or transmit any secret symmetric key. Instead, the document contains an authenticated ciphertext safe and an algorithmic challenge: the visiting browser must expend a small, bounded amount of CPU work to derive the decryption key locally.
 
 ---
 
-### 3.2 Step-by-Step Execution Lifecycle
+### 3.2 Step-by-Step Execution Lifecycle & Mathematical Mechanics
 
-Here is what happens under the hood when a reader navigates to the page:
+To implement this without an active backend, the static document bundles a cryptographic challenge package containing the encrypted content alongside public challenge parameters:
 
-1. **Step 1: Transmission of the Locked Box**  
-   The static HTML contains an encrypted ciphertext buffer $C$ produced via standard authenticated symmetric encryption:
-   $$C = \text{AES-256-GCM}_{K}(\text{Plaintext})$$
-   Along with $C$, the HTML supplies a public cryptographic salt $S$ and a target difficulty parameter $d$ (e.g., $d = 14$ or $16$ bits).
+$$\mathcal{P}_{\text{package}} = \Big\langle S, \; d, \; \mathbf{iv}, \; C, \; T \Big\rangle$$
 
-2. **Step 2: Client-Side Nonce Search (Proof-of-Work)**  
-   As soon as the page loads, an asynchronous JavaScript Web Worker or WebAssembly thread begins searching for an integer counter (the *nonce* $\eta \in \mathbb{N}$) that satisfies a partial pre-image hash constraint:
-   $$\text{Find } \eta \in \mathbb{N} \quad \text{such that} \quad \text{SHA-256}(S \parallel \eta) \le \frac{2^{256}}{2^d}$$
-   Because SHA-256 is a cryptographically secure, pre-image resistant one-way hash function, there is no shortcut or analytical inversion formula. The client must test values sequentially ($\eta = 0, 1, 2, \dots$) until it finds a hash beginning with $d$ zero bits.
+where:
+* $S \in \{0, 1\}^{256}$ is a high-entropy, per-document cryptographic **salt**.
+* $d \in \mathbb{N}$ is the **difficulty target** (specifying the required number of leading zero bits).
+* $\mathbf{iv} \in \{0, 1\}^{96}$ is the standard 12-byte initialization vector for AES-GCM.
+* $C \in \{0, 1\}^*$ is the **ciphertext buffer** containing the encrypted text payload.
+* $T \in \{0, 1\}^{128}$ is the 16-byte Poly1305 / GHASH **authentication tag** verifying data integrity.
 
-3. **Step 3: Deterministic Key Derivation (HKDF)**  
-   Once the client discovers the winning nonce $\eta$, it feeds $\eta$ and the salt $S$ into an HMAC-based Key Derivation Function (HKDF-SHA256):
-   $$K = \text{HKDF-Expand}(\text{HKDF-Extract}(S, \text{Seed} \parallel \eta), \text{"heic-channel"}, 32)$$
-   Because only the correct nonce satisfies the puzzle, this mathematically reconstructs the exact 256-bit AES key $K$.
+Here is the exact mathematical lifecycle executed in the client runtime:
 
-4. **Step 4: Ephemeral Decryption & DOM Injection**  
-   Using the W3C native Web Cryptography API (`window.crypto.subtle.decrypt` [[7]](#ref-7)), the browser decrypts $C$ in $< 1\text{ ms}$ and writes the recovered text into the webpage DOM. The key $K$ is kept strictly in volatile memory and never persisted to cookies, local storage, or disk.
+#### 1. Why and How the Salt ($S$) is Incorporated
+A common vulnerability in naive Proof-of-Work schemes is susceptibility to **precomputation attacks** (such as rainbow tables or pre-mined nonces). 
+
+* **The Attack Without a Salt:** If every page used a fixed challenge (e.g., finding $\eta$ such that $\text{SHA-256}(\eta)$ begins with $d$ zeroes), an adversary could compute the winning nonce $\eta^*$ **once** offline, store it, and instantly bypass the challenge on every single page across your entire website in $0\text{ ms}$.
+* **Generation & Binding of the Salt:** During page creation, the author generates a fresh 256-bit cryptographically secure pseudo-random salt:
+  $$S \xleftarrow{\$} \{0, 1\}^{256}$$
+  By prepending this unique salt to every candidate nonce ($S \parallel \eta$), the cryptographic **avalanche effect** of SHA-256 guarantees that the resulting hash output is completely pseudo-random and independent across different documents. Even a single bit difference in $S$ alters $\approx 50\%$ of the digest bits.
+* **Per-Document Cryptographic Isolation:** Because every article is provisioned with a distinct salt $S_i$, the winning nonce for Page A is mathematically invalid for Page B:
+  $$\eta^*_{\text{Page } A} \neq \eta^*_{\text{Page } B}$$
+  An automated crawler is strictly forced to run the mining loop independently for *every individual URL* it attempts to harvest.
+
+#### 2. Client-Side Nonce Search (Proof-of-Work Mining)
+Upon receiving $\mathcal{P}_{\text{package}}$, the client's browser launches an asynchronous JavaScript Web Worker thread that searches for the smallest non-negative integer $\eta \in \mathbb{N}$ satisfying a partial pre-image constraint:
+
+$$\text{Find } \eta^* = \min \left\{ \eta \in \mathbb{N} \;\middle|\; \text{SHA-256}(S \parallel \eta) < \frac{2^{256}}{2^d} \right\}$$
+
+In binary terms, the condition requires that the first $d$ bits of the 256-bit digest are all zeroes:
+
+$$\text{SHA-256}(S \parallel \eta) = \underbrace{00\dots0}_{d \text{ bits}} \, b_{d+1} b_{d+2} \dots b_{256}$$
+
+Because SHA-256 is collision-resistant and behaves as a random oracle, there is no shortcut or algebraic inversion. The expected number of hash evaluations to discover $\eta^*$ is geometrically distributed with mean:
+
+$$\mathbb{E}[\text{Iterations}] = 2^d$$
+
+#### 3. Deterministic Key Derivation via HKDF
+Once the browser identifies the valid nonce $\eta^*$, it must reconstruct the symmetric AES encryption key $K$. It passes both the salt $S$ and the solved input $S \parallel \eta^*$ into the HMAC-based Extract-and-Expand Key Derivation Function (HKDF-SHA256, RFC 5869):
+
+$$\text{PRK} = \text{HMAC-SHA256}\big(\text{key} = S, \; \text{data} = S \parallel \eta^*\big)$$
+
+$$K = \text{HMAC-SHA256}\big(\text{key} = \text{PRK}, \; \text{info} = \text{"heic-v1-aes-key"} \parallel \text{0x01}\big) \quad \in \{0, 1\}^{256}$$
+
+Notice the mathematical beauty: the static server **never stored or transmitted the key $K$**. The key exists only as a latent cryptographic coordinate reachable solely by expending $2^d$ computational work.
+
+#### 4. Authenticated Decryption of the Ciphertext ($C$)
+With key $K$ reconstructed, the browser invokes the native Web Cryptography API (`window.crypto.subtle.decrypt` [[7]](#ref-7)) to perform authenticated decryption:
+
+$$M = \text{AES-256-GCM-Decrypt}_{K}\big(\mathbf{iv}, \; C, \; T\big)$$
+
+* **Integrity Guarantee:** If an adversary attempts to guess $\eta$ or passes an incorrect key $K'$, the Galois Hash authentication tag $T$ fails verification:
+  $$\text{AES-256-GCM-Decrypt}_{K'}(\mathbf{iv}, C, T) = \bot \quad (\text{Cryptographic Error})$$
+  Not a single bit of plaintext $M$ is revealed unless the client provides the exact mathematically valid nonce.
+* **Ephemeral In-Memory Rendering:** When valid, the plaintext $M$ is injected directly into the document DOM. The key $K$ is kept strictly in volatile execution memory and never written to cookies, local storage, or network logs.
+
+---
+
+### End-to-End Architectural Flowchart
+
+The entire challenge-response lifecycle across the static server and client runtime is synthesized below:
+
+```
++-----------------------------------------------------------------------------------------+
+|                           STATIC SERVER (AWS S3 / GitHub Pages)                         |
+|                                                                                         |
+|   Static Document Package:                                                              |
+|   P = < Salt S, Difficulty d, IV, Ciphertext C, Auth Tag T >                            |
++-----------------------------------------------------------------------------------------+
+                                             │
+                                             │  HTTP GET Response (Zero Server Logic)
+                                             ▼
++-----------------------------------------------------------------------------------------+
+|                                CLIENT BROWSER (V8 / WebAssembly)                        |
+|                                                                                         |
+|   [Phase 1: Computational Mining Loop]                                                  |
+|   For η = 0, 1, 2, 3, ...                                                               |
+|   Compute: H = SHA-256(S ∥ η)                                                           |
+|   Condition: Does H have d leading zero bits?                                           |
+|              ├─ NO  ──> Increment η and repeat                                          |
+|              └─ YES ──> Solution Found: η*                                              |
+|                                                                                         |
+|   [Phase 2: Cryptographic Key Derivation]                                               |
+|   K = HKDF-SHA256( Salt = S, IKM = S ∥ η*, Info = "heic-v1-aes-key" )                   |
+|                                                                                         |
+|   [Phase 3: Authenticated In-Memory Decryption]                                         |
+|   Plaintext M = AES-256-GCM-Decrypt( Key = K, IV, Ciphertext = C, Tag = T )             |
+|                                                                                         |
+|   [Phase 4: Ephemeral DOM Rendering]                                                     |
+|   Inject M into Document Object Model ──> Render to Human Retina                        |
+|   Discard Key K from volatile execution memory                                          |
++-----------------------------------------------------------------------------------------+
+```
 
 ---
 
@@ -189,8 +240,14 @@ Use the simulator below to test client-side cryptographic key derivation. Adjust
       </div>
     </div>
 
-    <div class="alert alert-info py-2 px-3 mb-3" style="font-size: 0.84rem;">
-      <i class="fa-solid fa-calculator"></i> <strong>Crawler Economic Burden:</strong> <span id="pow-scraper-cost">Calculating...</span>
+    <div class="pow-burden-banner mb-3" id="pow-burden-banner">
+      <div class="burden-header">
+        <i class="fa-solid fa-scale-unbalanced-flip"></i>
+        <strong>Economic Asymmetry Disparity</strong>
+      </div>
+      <div class="burden-metrics" id="pow-scraper-cost">
+        <!-- Dynamically rendered via WebCrypto engine -->
+      </div>
     </div>
 
     <small class="text-muted d-block mb-1 font-monospace">DECRYPTED PAYLOAD BUFFER:</small>
