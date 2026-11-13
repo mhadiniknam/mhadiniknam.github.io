@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-human-exclusive-information-channels-cryptographic-amp-perceptual-obfuscation-against-large-language-models",
+            },{id: "post-pandas-is-a-relational-algebra-library-foundations-operations-and-beyond",
+        
+          title: "Pandas is a Relational Algebra Library: Foundations, Operations, and Beyond",
+        
+        description: "A formal and practical examination of Pandas through the lens of classical Relational Algebra (Silberschatz et al., Chapter 2), mapping fundamental relational operators to Pandas and exploring where DataFrame computing transcends classical theory.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/pandas-is-a-relational-algebra-lib/";
+          
+        },
+      },{id: "post-human-exclusive-information-channels-cryptographic-amp-perceptual-obfuscation-against-large-language-models",
         
           title: "Human-Exclusive Information Channels: Cryptographic &amp; Perceptual Obfuscation Against Large Language Models",
         
