@@ -1,31 +1,19 @@
 <!-- jQuery -->
-<script
-  src="{{ site.third_party_libraries.jquery.url.js }}"
-  integrity="{{ site.third_party_libraries.jquery.integrity.js }}"
-  crossorigin="anonymous"
-></script>
+<script src="{{ '/assets/js/jquery.min.js' | relative_url | bust_file_cache }}"></script>
 
 <!-- Bootsrap & MDB scripts -->
 <script src="{{ '/assets/js/bootstrap.bundle.min.js' | relative_url }}"></script>
-<script
-  src="{{ site.third_party_libraries.mdb.url.js }}"
-  integrity="{{ site.third_party_libraries.mdb.integrity.js }}"
-  crossorigin="anonymous"
-></script>
+<script src="{{ '/assets/js/mdb.min.js' | relative_url | bust_file_cache }}"></script>
 
 {% if site.enable_masonry %}
   <!-- Masonry & imagesLoaded -->
   <script
     defer
-    src="{{ site.third_party_libraries.masonry.url.js }}"
-    integrity="{{ site.third_party_libraries.masonry.integrity.js }}"
-    crossorigin="anonymous"
+    src="{{ '/assets/js/masonry.pkgd.min.js' | relative_url | bust_file_cache }}"
   ></script>
   <script
     defer
-    src="{{ site.third_party_libraries.imagesloaded.url.js }}"
-    integrity="{{ site.third_party_libraries.imagesloaded.integrity.js }}"
-    crossorigin="anonymous"
+    src="{{ '/assets/js/imagesloaded.pkgd.min.js' | relative_url | bust_file_cache }}"
   ></script>
   <script defer src="{{ '/assets/js/masonry.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
@@ -156,9 +144,7 @@
   <!-- Medium Zoom JS -->
   <script
     defer
-    src="{{ site.third_party_libraries.medium_zoom.url.js }}"
-    integrity="{{ site.third_party_libraries.medium_zoom.integrity.js }}"
-    crossorigin="anonymous"
+    src="{{ '/assets/js/medium-zoom.min.js' | relative_url | bust_file_cache }}"
   ></script>
   <script defer src="{{ '/assets/js/zoom.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}
@@ -195,23 +181,16 @@
   <script async src="https://badge.dimensions.ai/badge.js"></script>
 {% endif %}
 
-{% if site.enable_math %}
+{% if site.enable_math and (page.layout == 'post' or page.layout == 'distill' or page.math) %}
   <!-- MathJax -->
   <script
     defer
     type="text/javascript"
     id="MathJax-script"
-    src="{{ site.third_party_libraries.mathjax.url.js }}"
-    integrity="{{ site.third_party_libraries.mathjax.integrity.js }}"
-    crossorigin="anonymous"
+    src="{{ '/assets/js/mathjax.js' | relative_url | bust_file_cache }}"
   ></script>
   {% unless page.pseudocode %}
     <script src="{{ '/assets/js/mathjax-setup.js' | relative_url | bust_file_cache }}"></script>
-    <script
-      defer
-      src="{{ site.third_party_libraries.polyfill.url.js }}"
-      crossorigin="anonymous"
-    ></script>
   {% else %}
     <script src="{{ '/assets/js/pseudocode-setup.js' | relative_url | bust_file_cache }}"></script>
     <script

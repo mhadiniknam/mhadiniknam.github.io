@@ -9,7 +9,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (8.0.2)
+    activesupport (7.2.2.2)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -200,7 +200,7 @@ GEM
     mercenary (0.4.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
-    multi_xml (0.7.2)
+    multi_xml (0.7.1)
       bigdecimal (~> 3.1)
     namae (1.2.0)
       racc (~> 1.7)
