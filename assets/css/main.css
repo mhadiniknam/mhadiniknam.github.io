@@ -73,4 +73,4 @@ ul.timeline li::before{content:"";min-height:2.5rem;width:1px;background:var(--g
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */:root,:host{--fa-style-family-classic:"Font Awesome 6 Free";--fa-font-regular:normal 400 1em/1 "Font Awesome 6 Free"}
-@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url("../webfonts/fa-regular-400.woff2") format("woff2"),url("../webfonts/fa-regular-400.ttf") format("truetype")}.far,.fa-regular{font-weight:400}
+@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url("../webfonts/fa-regular-400.woff2") format("woff2"),url("../webfonts/fa-regular-400.ttf") format("truetype")}.far,.fa-regular{font-weight:400}.z-depth-0{box-shadow:none!important}.z-depth-1{box-shadow:0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important}.hoverable{transition:box-shadow .35s ease-in-out}.hoverable:hover{box-shadow:0 8px 17px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)!important}
