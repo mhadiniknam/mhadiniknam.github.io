@@ -1,11 +1,8 @@
-<!-- jQuery -->
+<!-- jQuery & Bootstrap -->
 <script src="{{ '/assets/js/jquery.min.js' | relative_url | bust_file_cache }}"></script>
-
-<!-- Bootsrap & MDB scripts -->
 <script src="{{ '/assets/js/bootstrap.bundle.min.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/mdb.min.js' | relative_url | bust_file_cache }}"></script>
 
-{% if site.enable_masonry %}
+{% if site.enable_masonry and (page.url contains 'projects' or page.url contains 'blog' or page.url contains 'books') %}
   <!-- Masonry & imagesLoaded -->
   <script
     defer

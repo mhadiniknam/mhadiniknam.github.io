@@ -66,7 +66,7 @@
         B: 3,   // alpha bands along each trail
         ps: [],
         reset() {
-            const n = Math.round(Math.max(220, Math.min(450, (W * H) / 2200)));
+            const n = Math.round(Math.max(140, Math.min(240, (W * H) / 3600)));
             this.ps = [];
             for (let i = 0; i < n; i++) {
                 const p = { hx: new Float32Array(this.L), hy: new Float32Array(this.L), head: 0, life: 0, max: 0, c: 0 };
@@ -74,7 +74,7 @@
                 this.ps.push(p);
             }
             // Pre-warm simulation so trails are fully drawn on the very first frame
-            for (let k = 0; k < 22; k++) {
+            for (let k = 0; k < 14; k++) {
                 this.step(16.67, 1000 + k * 16.67, []);
             }
         },
@@ -396,7 +396,7 @@
 
     function resize() {
         const r = stage.getBoundingClientRect();
-        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        const dpr = Math.min(1.5, window.devicePixelRatio || 1);
         W = Math.max(1, Math.round(r.width));
         H = Math.max(1, Math.round(r.height));
         for (const [cv, ctx] of [[cvB, bg], [cvF, fg]]) {
