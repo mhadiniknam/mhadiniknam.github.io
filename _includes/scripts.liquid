@@ -1,6 +1,5 @@
-<!-- jQuery & Bootstrap -->
-<script src="{{ '/assets/js/jquery.min.js' | relative_url | bust_file_cache }}"></script>
-<script src="{{ '/assets/js/bootstrap.bundle.min.js' | relative_url }}"></script>
+<!-- Core JS Bundle (jQuery, Bootstrap, MediumZoom, Common, Progress Bar, Back-to-Top) -->
+<script defer src="{{ '/assets/js/bundle.js' | relative_url | bust_file_cache }}"></script>
 
 {% if site.enable_masonry and (page.url contains 'projects' or page.url contains 'blog' or page.url contains 'books') %}
   <!-- Masonry & imagesLoaded -->
@@ -137,15 +136,6 @@
   <script src="{{ '/assets/js/tooltips-setup.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}
 
-{% if site.enable_medium_zoom %}
-  <!-- Medium Zoom JS -->
-  <script
-    defer
-    src="{{ '/assets/js/medium-zoom.min.js' | relative_url | bust_file_cache }}"
-  ></script>
-  <script defer src="{{ '/assets/js/zoom.js' | relative_url | bust_file_cache }}"></script>
-{% endif %}
-
 {% if page.toc and page.toc.sidebar %}
   <!-- Sidebar Table of Contents -->
   <script defer src="{{ '/assets/js/bootstrap-toc.min.js' | relative_url | bust_file_cache }}"></script>
@@ -162,9 +152,6 @@
   ></script>
 {% endif %}
 
-<!-- Load Common JS -->
-<script src="{{ '/assets/js/no_defer.js' | relative_url | bust_file_cache }}"></script>
-<script defer src="{{ '/assets/js/common.js' | relative_url | bust_file_cache }}"></script>
 {% if page.layout == 'post' or page.layout == 'distill' %}
   <script defer src="{{ '/assets/js/copy_code.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <!-- Jupyter Open External Links New Tab -->
@@ -227,11 +214,6 @@
   <script async defer src="https://openpanel.dev/op1.js"></script>
 {% endif %}
 
-{% if site.enable_progressbar %}
-  <!-- Scrolling Progress Bar -->
-  <script defer src="{{ '/assets/js/progress-bar.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
-{% endif %}
-
 {% if page.images %}
   <!-- Image Layouts -->
   {% if page.images.compare %}
@@ -286,9 +268,10 @@
 
 {% if site.back_to_top %}
   <!-- Back to Top -->
-  <script src="{{ '/assets/js/vanilla-back-to-top.min.js' | relative_url | bust_file_cache }}"></script>
   <script>
-    addBackToTop();
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof addBackToTop === 'function') addBackToTop();
+    });
   </script>
 {% endif %}
 
