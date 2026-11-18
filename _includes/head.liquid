@@ -1,8 +1,7 @@
 <!-- Metadata, OpenGraph and Schema.org -->
 {% include metadata.liquid %}
 
-<!-- Bootstrap -->
-<link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url | bust_file_cache }}">
+<!-- Styles (Bootstrap bundled inside main.css) -->
 
 {% if page.pretty_table %}
   <!-- Bootstrap Table -->
@@ -15,31 +14,22 @@
   >
 {% endif %}
 
-<!-- Fonts & Icons -->
-<link rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url | bust_file_cache }}" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url | bust_file_cache }}" media="print" onload="this.media='all'">
-<link
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Vazirmatn:wght@400;500;600&display=swap"
-  rel="stylesheet"
-  media="print"
-  onload="this.media='all'"
->
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ site.third_party_libraries.google_fonts.url.fonts }}"
-  media="print"
-  onload="this.media='all'"
->
+{% if page.url contains 'publications' or page.url contains 'cv' %}
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url | bust_file_cache }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url | bust_file_cache }}" media="print" onload="this.media='all'">
+{% endif %}
 
-<!-- Code Syntax Highlighting -->
-<link
-  rel="stylesheet"
-  href="{{ '/assets/css/jekyll-pygments-themes-github.css' | relative_url | bust_file_cache }}"
-  media="print"
-  onload="this.media='all'"
-  id="highlight_theme_light"
->
+{% if page.layout == 'post' or page.layout == 'distill' or page.code %}
+  <!-- Code Syntax Highlighting -->
+  <link
+    rel="stylesheet"
+    href="{{ '/assets/css/jekyll-pygments-themes-github.css' | relative_url | bust_file_cache }}"
+    media="print"
+    onload="this.media='all'"
+    id="highlight_theme_light"
+  >
+{% endif %}
 
 {% if page.toc and page.toc.sidebar %}
   <!-- Sidebar Table of Contents -->
@@ -73,13 +63,15 @@
 {% if site.enable_darkmode %}
   <!-- Dark Mode -->
   <script src="{{ '/assets/js/theme.js' | relative_url | bust_file_cache }}"></script>
-  <link
-    defer
-    rel="stylesheet"
-    href="{{ '/assets/css/jekyll-pygments-themes-native.css' | relative_url | bust_file_cache }}"
-    media="none"
-    id="highlight_theme_dark"
-  >
+  {% if page.layout == 'post' or page.layout == 'distill' or page.code %}
+    <link
+      defer
+      rel="stylesheet"
+      href="{{ '/assets/css/jekyll-pygments-themes-native.css' | relative_url | bust_file_cache }}"
+      media="none"
+      id="highlight_theme_dark"
+    >
+  {% endif %}
   <script>
     initTheme();
   </script>
