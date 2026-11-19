@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-pandas-is-a-relational-algebra-library-foundations-operations-and-beyond",
+            },{id: "post-how-i-actually-picture-probability-theory",
+        
+          title: "How I Actually Picture Probability Theory",
+        
+        description: "A visual, intuitive way to picture measure-theoretic probability—from the outcome alphabet Ω and σ-algebra F, splitting into probability measure P and random variable X, down to pushforward measure P_X and Radon-Nikodym density f = dP_X / dλ.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/how-i-actually-picture-probability-theory/";
+          
+        },
+      },{id: "post-pandas-is-a-relational-algebra-library-foundations-operations-and-beyond",
         
           title: "Pandas is a Relational Algebra Library: Foundations, Operations, and Beyond",
         
